@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type ComponentProps } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+} from "react";
 import Link from "next/link";
 import { motion, useAnimate } from "motion/react";
 import { arc } from "motion";
@@ -12,9 +18,7 @@ const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export type BounceSidebarItem =
-  | string
-  | { label: string; href?: string }
-  | { label: string; heading: true };
+  string | { label: string; href?: string } | { label: string; heading: true };
 
 export type BounceSidebarProps = Omit<ComponentProps<"ul">, "onChange"> & {
   items: BounceSidebarItem[];

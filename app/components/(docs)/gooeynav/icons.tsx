@@ -36,7 +36,13 @@ export function BookIcon(props: IconProps) {
 
 export function BriefcaseIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="square" {...base} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="square"
+      {...base}
+      {...props}
+    >
       <path d="M8 6V2H16V6" />
       <path d="M10 13H4C2.89543 13 2 12.1046 2 11V6H22V11C22 12.1046 21.1046 13 20 13H14" />
       <path d="M2 17V21H22V17" />
@@ -47,7 +53,13 @@ export function BriefcaseIcon(props: IconProps) {
 
 export function InfoIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="square" {...base} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="square"
+      {...base}
+      {...props}
+    >
       <circle cx="12" cy="12" r="10" />
       <path d="m12,17v-5.5c0-.276-.224-.5-.5-.5h-1.5" />
       <circle cx="12" cy="7.25" r="1.25" fill="currentColor" strokeWidth={0} />

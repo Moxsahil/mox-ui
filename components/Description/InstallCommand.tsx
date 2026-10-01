@@ -13,8 +13,8 @@ import CopyButton from "../CopyButton";
 import Tooltip from "../Tooltip";
 
 const ACTIVE_COLOR: Record<PackageManager, string> = {
-  npm: "#CB3837", 
-  pnpm: "#F9AD00", 
+  npm: "#CB3837",
+  pnpm: "#F9AD00",
   yarn: "#38BDF8",
   bun: "#FF9557",
 };

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, {
   useCallback,
@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
   useSyncExternalStore,
-} from "react"
+} from "react";
 import {
   motion,
   useMotionValue,
@@ -15,46 +15,46 @@ import {
   useSpring,
   useTransform,
   type MotionValue,
-} from "motion/react"
+} from "motion/react";
 
-type Side = "left" | "right"
-type SectionKind = "title" | "subtitle" | "section" | "body"
-type SectionLevel = 1 | 2 | 3 | 4 | 5 | 6
+type Side = "left" | "right";
+type SectionKind = "title" | "subtitle" | "section" | "body";
+type SectionLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type ProximitySection = {
-  id: string
-  label: string
-  kind?: SectionKind
-  level?: SectionLevel
-}
+  id: string;
+  label: string;
+  kind?: SectionKind;
+  level?: SectionLevel;
+};
 
 type DashPreset = {
-  base: number
-  bump: number
-  thickness: number
-  className: string
-}
+  base: number;
+  bump: number;
+  thickness: number;
+  className: string;
+};
 
 type DashProps = {
-  active: boolean
-  mouseY: MotionValue<number>
-  onSelect: (id: string) => void
-  registerDash: (id: string, node: HTMLButtonElement | null) => void
-  section: ProximitySection
-  sectionKind: SectionKind
-  side: Side
-}
+  active: boolean;
+  mouseY: MotionValue<number>;
+  onSelect: (id: string) => void;
+  registerDash: (id: string, node: HTMLButtonElement | null) => void;
+  section: ProximitySection;
+  sectionKind: SectionKind;
+  side: Side;
+};
 
 type ProximitySidebarProps = {
-  activeOffset?: number
-  className?: string
-  sections: ProximitySection[]
-  side?: Side
-}
+  activeOffset?: number;
+  className?: string;
+  sections: ProximitySection[];
+  side?: Side;
+};
 
-const RADIUS = 40
-const MAX_DASH_WIDTH = 110
-const SCROLL_IDLE_RESET_DELAY = 80
+const RADIUS = 40;
+const MAX_DASH_WIDTH = 110;
+const SCROLL_IDLE_RESET_DELAY = 80;
 
 const DASH_PRESETS: Record<SectionKind, DashPreset> = {
   title: {
@@ -81,55 +81,57 @@ const DASH_PRESETS: Record<SectionKind, DashPreset> = {
     thickness: 1,
     className: "bg-muted-foreground/40",
   },
-}
+};
 
 const getSectionElement = (id: string) =>
-  typeof document === "undefined" ? null : document.getElementById(id)
+  typeof document === "undefined" ? null : document.getElementById(id);
 
 const getSectionKind = (section: ProximitySection): SectionKind => {
-  if (section.kind) return section.kind
-  if (section.level === 1) return "title"
-  if (section.level === 2) return "subtitle"
-  if (section.level === 3) return "section"
-  return "body"
-}
+  if (section.kind) return section.kind;
+  if (section.level === 1) return "title";
+  if (section.level === 2) return "subtitle";
+  if (section.level === 3) return "section";
+  return "body";
+};
 
 const getElementSectionKind = (id: string): SectionKind | undefined => {
-  const heading = getSectionElement(id)?.querySelector("h1, h2, h3, h4, h5, h6")
-  const tagName = heading?.tagName.toLowerCase()
+  const heading = getSectionElement(id)?.querySelector(
+    "h1, h2, h3, h4, h5, h6",
+  );
+  const tagName = heading?.tagName.toLowerCase();
 
-  if (tagName === "h1") return "title"
-  if (tagName === "h2") return "subtitle"
-  if (tagName === "h3") return "section"
-  if (tagName) return "body"
-}
+  if (tagName === "h1") return "title";
+  if (tagName === "h2") return "subtitle";
+  if (tagName === "h3") return "section";
+  if (tagName) return "body";
+};
 
 const subscribeToSectionChanges = (onChange: () => void) => {
-  const observer = new MutationObserver(onChange)
+  const observer = new MutationObserver(onChange);
   observer.observe(document.body, {
     childList: true,
     subtree: true,
     attributes: true,
     attributeFilter: ["id"],
-  })
-  return () => observer.disconnect()
-}
+  });
+  return () => observer.disconnect();
+};
 
 const getScrollParent = (element: HTMLElement) => {
-  let parent = element.parentElement
+  let parent = element.parentElement;
 
   while (parent) {
-    const { overflowY } = window.getComputedStyle(parent)
+    const { overflowY } = window.getComputedStyle(parent);
 
     if (/(auto|scroll|overlay)/.test(overflowY)) {
-      return parent
+      return parent;
     }
 
-    parent = parent.parentElement
+    parent = parent.parentElement;
   }
 
-  return window
-}
+  return window;
+};
 
 const Dash = ({
   active,
@@ -140,20 +142,20 @@ const Dash = ({
   sectionKind,
   side,
 }: DashProps) => {
-  const ref = useRef<HTMLButtonElement>(null)
-  const preset = DASH_PRESETS[sectionKind]
-  const activeWidth = preset.base + preset.bump
+  const ref = useRef<HTMLButtonElement>(null);
+  const preset = DASH_PRESETS[sectionKind];
+  const activeWidth = preset.base + preset.bump;
 
   useEffect(() => {
-    registerDash(section.id, ref.current)
-    return () => registerDash(section.id, null)
-  }, [registerDash, section.id])
+    registerDash(section.id, ref.current);
+    return () => registerDash(section.id, null);
+  }, [registerDash, section.id]);
 
   const distance = useTransform(mouseY, (y) => {
-    const rect = ref.current?.getBoundingClientRect()
-    if (!rect) return RADIUS
-    return y - (rect.top + rect.height / 2)
-  })
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return RADIUS;
+    return y - (rect.top + rect.height / 2);
+  });
 
   const targetScaleX = useTransform(
     distance,
@@ -163,14 +165,14 @@ const Dash = ({
       activeWidth / MAX_DASH_WIDTH,
       preset.base / MAX_DASH_WIDTH,
     ],
-    { clamp: true }
-  )
+    { clamp: true },
+  );
 
   const scaleX = useSpring(targetScaleX, {
     stiffness: 320,
     damping: 34,
     mass: 0.7,
-  })
+  });
 
   return (
     <button
@@ -192,8 +194,8 @@ const Dash = ({
         }}
       />
     </button>
-  )
-}
+  );
+};
 
 const ProximitySidebar = ({
   activeOffset = 0.4,
@@ -201,164 +203,170 @@ const ProximitySidebar = ({
   side = "left",
   sections,
 }: ProximitySidebarProps) => {
-  const mouseY = useMotionValue(Infinity)
-  const shouldReduceMotion = useReducedMotion()
-  const dashRefs = useRef(new Map<string, HTMLButtonElement>())
-  const pointerInside = useRef(false)
-  const resetTimer = useRef<number | null>(null)
-  const [activeId, setActiveId] = useState(sections[0]?.id)
+  const mouseY = useMotionValue(Infinity);
+  const shouldReduceMotion = useReducedMotion();
+  const dashRefs = useRef(new Map<string, HTMLButtonElement>());
+  const pointerInside = useRef(false);
+  const resetTimer = useRef<number | null>(null);
+  const [activeId, setActiveId] = useState(sections[0]?.id);
   const detectedKinds = useSyncExternalStore(
     subscribeToSectionChanges,
     useCallback(
-      () => sections.map((section) =>
-        section.kind || section.level
-          ? getSectionKind(section)
-          : getElementSectionKind(section.id) ?? getSectionKind(section)
-      ).join("|"),
-      [sections]
+      () =>
+        sections
+          .map((section) =>
+            section.kind || section.level
+              ? getSectionKind(section)
+              : (getElementSectionKind(section.id) ?? getSectionKind(section)),
+          )
+          .join("|"),
+      [sections],
     ),
-    useCallback(() => sections.map(getSectionKind).join("|"), [sections])
-  ).split("|") as SectionKind[]
+    useCallback(() => sections.map(getSectionKind).join("|"), [sections]),
+  ).split("|") as SectionKind[];
 
   const sectionIds = useMemo(
     () => sections.map((section) => section.id).join("|"),
-    [sections]
-  )
+    [sections],
+  );
 
   const registerDash = useCallback(
     (id: string, node: HTMLButtonElement | null) => {
       if (node) {
-        dashRefs.current.set(id, node)
-        return
+        dashRefs.current.set(id, node);
+        return;
       }
 
-      dashRefs.current.delete(id)
+      dashRefs.current.delete(id);
     },
-    []
-  )
+    [],
+  );
 
   const clearPendingReset = useCallback(() => {
-    if (!resetTimer.current) return
+    if (!resetTimer.current) return;
 
-    window.clearTimeout(resetTimer.current)
-    resetTimer.current = null
-  }, [])
+    window.clearTimeout(resetTimer.current);
+    resetTimer.current = null;
+  }, []);
 
   const setMouseToDash = useCallback(
     (id?: string) => {
       if (!id) {
-        mouseY.set(Infinity)
-        return
+        mouseY.set(Infinity);
+        return;
       }
 
-      const node = dashRefs.current.get(id)
-      if (!node) return
+      const node = dashRefs.current.get(id);
+      if (!node) return;
 
-      const rect = node.getBoundingClientRect()
-      mouseY.set(rect.top + rect.height / 2)
+      const rect = node.getBoundingClientRect();
+      mouseY.set(rect.top + rect.height / 2);
     },
-    [mouseY]
-  )
+    [mouseY],
+  );
 
   const pulseDash = useCallback(
     (id?: string) => {
-      setMouseToDash(id)
-      clearPendingReset()
+      setMouseToDash(id);
+      clearPendingReset();
 
-      if (!id || pointerInside.current) return
+      if (!id || pointerInside.current) return;
 
       resetTimer.current = window.setTimeout(() => {
-        mouseY.set(Infinity)
-        resetTimer.current = null
-      }, SCROLL_IDLE_RESET_DELAY)
+        mouseY.set(Infinity);
+        resetTimer.current = null;
+      }, SCROLL_IDLE_RESET_DELAY);
     },
-    [clearPendingReset, mouseY, setMouseToDash]
-  )
+    [clearPendingReset, mouseY, setMouseToDash],
+  );
 
   const selectSection = useCallback(
     (id: string) => {
-      const element = getSectionElement(id)
-      if (!element) return
+      const element = getSectionElement(id);
+      if (!element) return;
 
       element.scrollIntoView({
         behavior: shouldReduceMotion ? "auto" : "smooth",
         block: "start",
-      })
+      });
 
-      window.history.replaceState(null, "", `#${id}`)
-      setActiveId(id)
-      pulseDash(id)
+      window.history.replaceState(null, "", `#${id}`);
+      setActiveId(id);
+      pulseDash(id);
     },
-    [pulseDash, shouldReduceMotion]
-  )
+    [pulseDash, shouldReduceMotion],
+  );
 
-  useEffect(() => () => clearPendingReset(), [clearPendingReset])
+  useEffect(() => () => clearPendingReset(), [clearPendingReset]);
 
   useEffect(() => {
-    if (!sections.length) return
+    if (!sections.length) return;
 
-    let frame = 0
+    let frame = 0;
 
     const updateActiveSection = () => {
-      frame = 0
+      frame = 0;
 
-      const anchorY = window.innerHeight * activeOffset
-      let nextActiveId = sections[0]?.id
-      let shortestDistance = Number.POSITIVE_INFINITY
+      const anchorY = window.innerHeight * activeOffset;
+      let nextActiveId = sections[0]?.id;
+      let shortestDistance = Number.POSITIVE_INFINITY;
 
       for (const section of sections) {
-        const element = getSectionElement(section.id)
-        if (!element) continue
+        const element = getSectionElement(section.id);
+        if (!element) continue;
 
-        const rect = element.getBoundingClientRect()
-        const containsAnchor = rect.top <= anchorY && rect.bottom >= anchorY
+        const rect = element.getBoundingClientRect();
+        const containsAnchor = rect.top <= anchorY && rect.bottom >= anchorY;
         const distance = containsAnchor
           ? 0
-          : Math.min(Math.abs(rect.top - anchorY), Math.abs(rect.bottom - anchorY))
+          : Math.min(
+              Math.abs(rect.top - anchorY),
+              Math.abs(rect.bottom - anchorY),
+            );
 
         if (distance < shortestDistance) {
-          shortestDistance = distance
-          nextActiveId = section.id
+          shortestDistance = distance;
+          nextActiveId = section.id;
         }
       }
 
-      setActiveId(nextActiveId)
+      setActiveId(nextActiveId);
 
       if (!pointerInside.current) {
-        pulseDash(nextActiveId)
+        pulseDash(nextActiveId);
       }
-    }
+    };
 
     const scheduleUpdate = () => {
-      if (frame) return
-      frame = window.requestAnimationFrame(updateActiveSection)
-    }
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateActiveSection);
+    };
 
-    const scrollParents = new Set<EventTarget>([window])
+    const scrollParents = new Set<EventTarget>([window]);
 
     for (const section of sections) {
-      const element = getSectionElement(section.id)
-      if (element) scrollParents.add(getScrollParent(element))
+      const element = getSectionElement(section.id);
+      if (element) scrollParents.add(getScrollParent(element));
     }
 
-    updateActiveSection()
+    updateActiveSection();
 
     for (const parent of scrollParents) {
-      parent.addEventListener("scroll", scheduleUpdate, { passive: true })
+      parent.addEventListener("scroll", scheduleUpdate, { passive: true });
     }
 
-    window.addEventListener("resize", scheduleUpdate)
+    window.addEventListener("resize", scheduleUpdate);
 
     return () => {
-      if (frame) window.cancelAnimationFrame(frame)
+      if (frame) window.cancelAnimationFrame(frame);
 
       for (const parent of scrollParents) {
-        parent.removeEventListener("scroll", scheduleUpdate)
+        parent.removeEventListener("scroll", scheduleUpdate);
       }
 
-      window.removeEventListener("resize", scheduleUpdate)
-    }
-  }, [activeOffset, pulseDash, sectionIds, sections])
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [activeOffset, pulseDash, sectionIds, sections]);
 
   return (
     <nav
@@ -373,13 +381,13 @@ const ProximitySidebar = ({
         }`}
         style={{ gap: 8 }}
         onPointerMove={(event) => {
-          clearPendingReset()
-          pointerInside.current = true
-          mouseY.set(event.clientY)
+          clearPendingReset();
+          pointerInside.current = true;
+          mouseY.set(event.clientY);
         }}
         onPointerLeave={() => {
-          pointerInside.current = false
-          mouseY.set(Infinity)
+          pointerInside.current = false;
+          mouseY.set(Infinity);
         }}
       >
         {sections.map((section, index) => (
@@ -396,7 +404,7 @@ const ProximitySidebar = ({
         ))}
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default ProximitySidebar
+export default ProximitySidebar;

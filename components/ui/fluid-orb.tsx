@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from "react";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
-export type FluidOrbProps = React.ComponentProps<'div'> & {
-  size?: number
-  color?: string
-}
+export type FluidOrbProps = React.ComponentProps<"div"> & {
+  size?: number;
+  color?: string;
+};
 
 const VERT = `
 attribute vec2 a_pos;
 void main() {
   gl_Position = vec4(a_pos, 0.0, 1.0);
 }
-`
+`;
 
 const FRAG = `
 #ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -83,107 +83,109 @@ void main() {
 
   gl_FragColor = vec4(col * edge, edge);
 }
-`
+`;
 
 function hexToRgb(hex: string): [number, number, number] {
-  let h = hex.replace('#', '').trim()
+  let h = hex.replace("#", "").trim();
   if (h.length === 3) {
-    h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2]
+    h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
   }
-  const n = parseInt(h, 16)
-  if (h.length !== 6 || Number.isNaN(n)) return [0.1, 0.45, 0.95]
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255]
+  const n = parseInt(h, 16);
+  if (h.length !== 6 || Number.isNaN(n)) return [0.1, 0.45, 0.95];
+  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 }
 
 function compile(gl: WebGLRenderingContext, type: number, src: string) {
-  const shader = gl.createShader(type)
-  if (!shader) return null
-  gl.shaderSource(shader, src)
-  gl.compileShader(shader)
+  const shader = gl.createShader(type);
+  if (!shader) return null;
+  gl.shaderSource(shader, src);
+  gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error(gl.getShaderInfoLog(shader))
-    gl.deleteShader(shader)
-    return null
+    console.error(gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
   }
-  return shader
+  return shader;
 }
 
 const FluidOrb = ({
   size = 240,
-  color = '#1A73F2',
+  color = "#1A73F2",
   className,
   style,
   ...props
 }: FluidOrbProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const gl = canvas.getContext('webgl', { antialias: true, alpha: true })
-    if (!gl) return
+    const gl = canvas.getContext("webgl", { antialias: true, alpha: true });
+    if (!gl) return;
 
-    const program = gl.createProgram()
-    const vert = compile(gl, gl.VERTEX_SHADER, VERT)
-    const frag = compile(gl, gl.FRAGMENT_SHADER, FRAG)
-    if (!program || !vert || !frag) return
+    const program = gl.createProgram();
+    const vert = compile(gl, gl.VERTEX_SHADER, VERT);
+    const frag = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+    if (!program || !vert || !frag) return;
 
-    gl.attachShader(program, vert)
-    gl.attachShader(program, frag)
-    gl.linkProgram(program)
+    gl.attachShader(program, vert);
+    gl.attachShader(program, frag);
+    gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error(gl.getProgramInfoLog(program))
-      return
+      console.error(gl.getProgramInfoLog(program));
+      return;
     }
-    gl.useProgram(program)
+    gl.useProgram(program);
 
-    const buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
       gl.STATIC_DRAW,
-    )
-    const aPos = gl.getAttribLocation(program, 'a_pos')
-    gl.enableVertexAttribArray(aPos)
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0)
+    );
+    const aPos = gl.getAttribLocation(program, "a_pos");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-    const uResolution = gl.getUniformLocation(program, 'u_resolution')
-    const uTime = gl.getUniformLocation(program, 'u_time')
-    gl.uniform3f(gl.getUniformLocation(program, 'u_color'), ...hexToRgb(color))
+    const uResolution = gl.getUniformLocation(program, "u_resolution");
+    const uTime = gl.getUniformLocation(program, "u_time");
+    gl.uniform3f(gl.getUniformLocation(program, "u_color"), ...hexToRgb(color));
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    const px = Math.round(size * dpr)
-    canvas.width = px
-    canvas.height = px
-    gl.viewport(0, 0, px, px)
-    gl.uniform2f(uResolution, px, px)
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const px = Math.round(size * dpr);
+    canvas.width = px;
+    canvas.height = px;
+    gl.viewport(0, 0, px, px);
+    gl.uniform2f(uResolution, px, px);
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const start = performance.now()
-    let raf = 0
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const start = performance.now();
+    let raf = 0;
 
     const render = (now: number) => {
-      gl.uniform1f(uTime, reduce ? 0 : (now - start) / 1000)
-      gl.drawArrays(gl.TRIANGLES, 0, 6)
-      if (!reduce) raf = requestAnimationFrame(render)
-    }
-    render(start)
+      gl.uniform1f(uTime, reduce ? 0 : (now - start) / 1000);
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      if (!reduce) raf = requestAnimationFrame(render);
+    };
+    render(start);
 
     return () => {
-      cancelAnimationFrame(raf)
-      gl.deleteProgram(program)
-      gl.deleteShader(vert)
-      gl.deleteShader(frag)
-      gl.deleteBuffer(buffer)
-    }
-  }, [size, color])
+      cancelAnimationFrame(raf);
+      gl.deleteProgram(program);
+      gl.deleteShader(vert);
+      gl.deleteShader(frag);
+      gl.deleteBuffer(buffer);
+    };
+  }, [size, color]);
 
   return (
     <div
       data-slot="fluid-orb"
-      className={cn('relative overflow-hidden rounded-full', className)}
+      className={cn("relative overflow-hidden rounded-full", className)}
       style={{
         width: size,
         height: size,
@@ -193,7 +195,7 @@ const FluidOrb = ({
     >
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
-  )
-}
+  );
+};
 
-export default FluidOrb
+export default FluidOrb;
