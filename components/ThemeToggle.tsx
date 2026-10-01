@@ -25,7 +25,11 @@ const ContrastIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default function ThemeToggle({ className = "" }: { className?: string }) {
+export default function ThemeToggle({
+  className = "",
+}: {
+  className?: string;
+}) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (

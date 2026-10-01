@@ -181,11 +181,7 @@ export default function Page() {
 
               <div className="mt-6 space-y-6">
                 {group.items.map((item) => (
-                  <section
-                    key={item.id}
-                    id={item.id}
-                    className="scroll-mt-12"
-                  >
+                  <section key={item.id} id={item.id} className="scroll-mt-12">
                     <p className="mb-1 text-sm text-foreground/40">
                       {item.eyebrow}
                     </p>

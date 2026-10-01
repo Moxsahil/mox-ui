@@ -357,9 +357,7 @@ export default function Page() {
               id={group.id}
               className="mt-10 scroll-mt-12 first:mt-0"
             >
-              <p className="mb-2 text-sm text-foreground/40">
-                {group.eyebrow}
-              </p>
+              <p className="mb-2 text-sm text-foreground/40">{group.eyebrow}</p>
               {groupIndex === 0 ? (
                 <h1 className="font-cal text-5xl font-medium tracking-wider text-foreground">
                   {group.title}
@@ -375,20 +373,14 @@ export default function Page() {
 
               {group.id === "reference" ? (
                 <div className="mt-6 grid gap-6">
-                  <div
-                    id="reference-props"
-                    className="scroll-mt-12"
-                  >
+                  <div id="reference-props" className="scroll-mt-12">
                     <p className="font-sans text-sm leading-6 text-foreground/40">
                       Pass <code>sections</code>, <code>side</code>,{" "}
-                      <code>className</code>, and <code>activeOffset</code>.
-                      The section ids should match elements in the document.
+                      <code>className</code>, and <code>activeOffset</code>. The
+                      section ids should match elements in the document.
                     </p>
                   </div>
-                  <div
-                    id="reference-output"
-                    className="scroll-mt-12"
-                  >
+                  <div id="reference-output" className="scroll-mt-12">
                     <p className="font-sans text-sm leading-6 text-foreground/40">
                       The component renders an accessible navigation rail where
                       each dash is a button tied to its matching content block.

@@ -283,7 +283,14 @@ function useFallingGlyphs(opts: {
           EAGER,
         );
         const candX = clamp(probe - body.dx, 0, Math.max(width - body.w, 0));
-        const candY = restY(heights, candX, body.w, body.h, body.restRot, height);
+        const candY = restY(
+          heights,
+          candX,
+          body.w,
+          body.h,
+          body.restRot,
+          height,
+        );
         falls = candY > body.y + 2;
         if (falls) body.vr = rand(-40, 40);
       }
@@ -361,8 +368,7 @@ function useFallingGlyphs(opts: {
     if (armedRef.current) return;
     armedRef.current = true;
     const DOE = window.DeviceOrientationEvent as unknown as
-      | { requestPermission?: () => Promise<string> }
-      | undefined;
+      { requestPermission?: () => Promise<string> } | undefined;
     if (typeof DOE?.requestPermission !== "function") return;
     DOE.requestPermission()
       .then((state) => state === "granted" && setTiltReady(true))
@@ -371,8 +377,7 @@ function useFallingGlyphs(opts: {
 
   useEffect(() => {
     const DOE = window.DeviceOrientationEvent as unknown as
-      | { requestPermission?: () => Promise<string> }
-      | undefined;
+      { requestPermission?: () => Promise<string> } | undefined;
     if (DOE && typeof DOE.requestPermission !== "function") setTiltReady(true);
   }, []);
 

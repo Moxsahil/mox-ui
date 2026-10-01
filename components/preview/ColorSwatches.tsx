@@ -28,7 +28,7 @@ export default function ColorSwatches({
   const options = prop?.options ?? [];
   const [value, setValue] = usePreviewControl(
     prop?.name ?? "",
-    cleanDefault(prop) ?? options[0] ?? ""
+    cleanDefault(prop) ?? options[0] ?? "",
   );
 
   if (!prop || !prop.optionColors || options.length === 0) return null;
@@ -55,7 +55,7 @@ export default function ColorSwatches({
         return (
           <button
             key={option}
-            type="button" 
+            type="button"
             onClick={() => setValue(option)}
             aria-label={`Set ${prop.name} to ${option}`}
             aria-pressed={selected}

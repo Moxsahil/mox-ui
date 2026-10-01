@@ -18,11 +18,7 @@ export type ComponentProp = {
 };
 
 export type ComponentCategory =
-  | "ai"
-  | "navigation"
-  | "inputs"
-  | "feedback"
-  | "display";
+  "ai" | "navigation" | "inputs" | "feedback" | "display";
 
 export const CATEGORY_LABELS: Record<ComponentCategory, string> = {
   ai: "AI kit",

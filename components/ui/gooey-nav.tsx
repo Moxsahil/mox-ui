@@ -10,11 +10,21 @@ import {
 } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useReducedMotion, useSpring, useTransform } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "motion/react";
 import { cn } from "@/lib/utils";
 
 // the duration picker's spring, damped so nothing overshoots
-const SPRING = { type: "spring", stiffness: 200, damping: 28, mass: 1 } as const;
+const SPRING = {
+  type: "spring",
+  stiffness: 200,
+  damping: 28,
+  mass: 1,
+} as const;
 
 // the neck has thinned to nothing by the time the gap is this far open
 const NECK_BREAK = 0.22;
@@ -75,7 +85,12 @@ export type GooeyNavProps = Omit<ComponentProps<"nav">, "onChange"> & {
 // two concave curves pinching toward the middle, drawn in the gap the tiles leave
 function neckPath(gap: number, span: number) {
   // a NaN or negative span would otherwise emit a path full of NaN coordinates
-  if (!Number.isFinite(gap) || !Number.isFinite(span) || gap <= 0 || span <= 0) {
+  if (
+    !Number.isFinite(gap) ||
+    !Number.isFinite(span) ||
+    gap <= 0 ||
+    span <= 0
+  ) {
     return "";
   }
   const waist = NECK_H * (1 - gap / (span * NECK_BREAK));
