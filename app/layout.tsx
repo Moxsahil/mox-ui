@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono, Cal_Sans } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Databuddy } from "@databuddy/sdk/react";
@@ -23,10 +23,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const calSans = Cal_Sans({
+const calSans = localFont({
   variable: "--font-cal-sans",
-  subsets: ["latin"],
+  src: "../public/fonts/CalSans-Regular.ttf",
   weight: "400",
+  style: "normal",
 });
 
 const openRunde = localFont({
@@ -128,7 +129,8 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd()) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      {/* extensions can add body attributes before hydration */}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
