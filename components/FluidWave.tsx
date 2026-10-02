@@ -129,10 +129,12 @@ export default function FluidWave({ color = "#FC4C01" }: { color?: string }) {
     const resize = () => {
       const w = Math.max(1, Math.round(canvas.clientWidth * RESOLUTION_SCALE));
       const h = Math.max(1, Math.round(canvas.clientHeight * RESOLUTION_SCALE));
-      if (canvas.width === w && canvas.height === h) return;
-      canvas.width = w;
-      canvas.height = h;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
       gl.viewport(0, 0, w, h);
+      // a recreated shader needs its resolution even when the canvas size is unchanged
       gl.uniform2f(uResolution, w, h);
       // redraw at once so a resize never exposes a blank or stretched frame
       draw();
