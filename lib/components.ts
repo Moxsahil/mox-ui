@@ -72,6 +72,56 @@ export const PANEL_INFO = {
 
 export const components: ComponentItem[] = [
   {
+    name: "Contribution skyline",
+    href: "/components/contributionskyline",
+    category: "display",
+    registry: "contribution-skyline",
+    isNew: true,
+    description:
+      "A contribution calendar with a heatmap and an interactive 3D skyline.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/contribution-skyline.tsx`,
+    preview: "/componentdemos/contributionskyline.webm",
+    featured: true,
+    interaction:
+      "Switch between the heatmap and skyline. Hover or tap a day to see its count. Use arrow keys to explore. Drag the skyline to orbit, and double-click to reset.",
+    props: [
+      {
+        name: "data",
+        type: "ContributionDay[]",
+        description: "Daily counts. Omit to show generated sample data.",
+      },
+      {
+        name: "endDate",
+        type: "string | Date",
+        description:
+          "Last day shown. Defaults to the latest supplied date, or today.",
+      },
+      {
+        name: "defaultView",
+        type: '"2d" | "3d"',
+        default: '"3d"',
+        description: "Starting view. Defaults to the skyline.",
+      },
+      {
+        name: "palette",
+        type: "PaletteInput",
+        default: '"github"',
+        description:
+          "Color preset or custom colors. Defaults to the GitHub palette.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root element.",
+      },
+    ],
+    usage: `import ContributionSkyline from "@/components/ui/contribution-skyline";
+
+export function Demo() {
+  return <ContributionSkyline endDate="2017-11-08" />;
+}`,
+  },
+  {
     name: "Folder component",
     href: "/components/foldercomponent",
     category: "display",
@@ -1796,7 +1846,7 @@ export const gallerySections: ComponentSection[] = [
   {
     id: "new",
     label: "New releases",
-    items: components.filter((c) => c.isNew).reverse(),
+    items: components.filter((c) => c.isNew),
   },
   ...CATEGORY_ORDER.map((id) => ({
     id,
