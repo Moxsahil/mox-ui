@@ -25,6 +25,6 @@ Each section has one job. Never repeat a fact across sections.
 
 ## Workflow
 
-- After changing anything in `components/ui/*` or `registry.json`, run `npm run registry:build` so `public/r/*.json` stays in sync. The registry description must match the one in `lib/components.ts`.
-- Verify with `npx tsc --noEmit` and `npx eslint` on the touched files before calling work done.
+- After changing anything in `components/ui/*` or `registry.json`, run `pnpm run registry:build` so `public/r/*.json` stays in sync. The registry description must match the one in `lib/components.ts`.
+- Verify with `pnpm exec tsc --noEmit` and `pnpm exec eslint` on the touched files before calling work done.
 - Do not start dev servers or install packages unprompted; the user tests in their own browser.

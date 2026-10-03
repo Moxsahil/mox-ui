@@ -17,6 +17,19 @@
       ]
     },
     {
+      "name": "contribution-skyline",
+      "type": "registry:ui",
+      "title": "Contribution Skyline",
+      "description": "A contribution calendar with a heatmap and an interactive 3D skyline.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/contribution-skyline.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "folder-component",
       "type": "registry:ui",
       "title": "Folder Component",
