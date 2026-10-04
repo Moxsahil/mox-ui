@@ -17,6 +17,20 @@
       ]
     },
     {
+      "name": "saas-template",
+      "type": "registry:ui",
+      "title": "SaaS Template",
+      "description": "A dark landing page template with a navbar, a hero, and a product screenshot.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/saas-template.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "contribution-skyline",
       "type": "registry:ui",
       "title": "Contribution Skyline",
