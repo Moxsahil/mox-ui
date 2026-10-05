@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 // import Link from "next/link";
-import GooeyNavbar from "@/components/GooeyNavbar";
 import { fetchStarCount } from "@/lib/github";
-import HeroCta from "@/components/HeroCta";
-import HeroIntro from "@/components/HeroIntro";
-import ComponentsShowcase from "@/components/ComponentsShowcase";
+import ComponentRail from "@/components/home/ComponentRail";
+import CraftStatement from "@/components/home/CraftStatement";
+import HomeCta from "@/components/home/HomeCta";
+import HomeFaq from "@/components/home/HomeFaq";
+import HomeHero from "@/components/home/HomeHero";
+import HomeNav from "@/components/home/HomeNav";
+import InstallPaths from "@/components/home/InstallPaths";
+import StackSection from "@/components/home/StackSection";
 import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import Footer from "@/components/Footer";
 // import { OpenSlotCard, PlatformSponsorCard } from "@/components/sponsors/SponsorCards";
 // import { PLATFORM_CARD_HEIGHT, PLATFORM_SPONSORS } from "@/lib/sponsors";
-import { SITE_NAME } from "@/lib/site";
 
 // const LOWEST_TIER_PRICE = Math.min(...TIERS.map((tier) => tier.price));
 
@@ -24,40 +26,29 @@ export default async function Home() {
   const stars = await fetchStarCount();
 
   return (
-    <>
-      <section className="relative w-full p-1.5 md:p-2.5">
-        <div
-          className="relative flex min-h-[min(100svh_-_0.75rem,60rem)] w-full items-center justify-center overflow-hidden rounded-[45px] border border-black/[0.04] bg-[#F5F5F7] dark:border-transparent dark:border-apple dark:bg-[#121212] md:min-h-[min(100svh_-_1.25rem,60rem)]"
-          style={{ cornerShape: "squircle" } as React.CSSProperties}
-        >
-          <GooeyNavbar stars={stars} />
+    <div className="home flex flex-1 flex-col bg-home-bg font-runde text-home-fg">
+      <HomeNav stars={stars} />
 
-          <Image
-            src="/logos/moxui.svg"
-            alt=""
-            width={263}
-            height={252}
-            loading="eager"
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-[68%] h-auto w-[860px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.05] [filter:brightness(0)] dark:opacity-[0.07] dark:[filter:brightness(0)_invert(1)]"
+      <main>
+        <div className="home-hero relative isolate">
+          <div
+            aria-hidden
+            className="home-hero-glow pointer-events-none absolute inset-x-0 -top-15 bottom-0 -z-10 [mask-image:linear-gradient(to_bottom,#000_84%,transparent)]"
           />
-          <div className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(120%_75%_at_50%_-5%,rgba(255,255,255,0.07),transparent_60%)] dark:block" />
-
-          <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-3 px-4 pb-20 pt-28 text-center sm:gap-4 sm:px-6">
-            <HeroIntro
-              headline="Tasteful Components, Made to Stand Out."
-              sub={`${SITE_NAME} is a free, open-source collection of rare animated React components. Browse them in action below and install any component with the shadcn CLI.`}
-            >
-              <HeroCta />
-            </HeroIntro>
-          </div>
+          <HomeHero />
+          <ComponentRail />
         </div>
-      </section>
-      <ComponentsShowcase />
-      <TestimonialsSection />
-      {/* <BackersSection /> */}
-      <Footer />
-    </>
+        <StackSection />
+        <InstallPaths />
+        <CraftStatement />
+        <TestimonialsSection />
+        {/* <BackersSection /> */}
+        <HomeFaq />
+        <HomeCta />
+      </main>
+
+      <Footer className="-mt-8" />
+    </div>
   );
 }
 

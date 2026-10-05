@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 const VARIANTS = {
   solid:
-    "bg-[#FC4C01] text-white transition-colors duration-150 ease-out hover:bg-[#e64500]",
+    "bg-foreground text-background transition-colors duration-150 ease-out hover:bg-foreground/85",
   subtle:
     "bg-black/[0.06] text-foreground transition-colors duration-150 ease-out hover:bg-black/[0.1] dark:bg-white/10 dark:hover:bg-white/[0.16]",
 } as const;

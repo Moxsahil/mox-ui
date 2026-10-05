@@ -13,7 +13,6 @@ import {
 import { cn } from "@/lib/utils";
 import { SCROLL_FADE, SCROLL_SELECTOR } from "./SidebarScroll";
 
-const ACTIVE_COLOR = "#FC4C01";
 const CORNER = 6;
 const DASH =
   "repeating-linear-gradient(to top, transparent 0 2px, currentColor 2px 4px)";
@@ -22,18 +21,16 @@ const Rail = ({
   from = 0,
   y,
   visible,
-  color,
   className,
 }: {
   from?: number;
   y: number | null;
   visible: boolean;
-  color?: string;
   className?: string;
 }) => (
   <span
     aria-hidden
-    style={{ opacity: visible && y !== null ? 1 : 0, color }}
+    style={{ opacity: visible && y !== null ? 1 : 0 }}
     className={cn(
       "pointer-events-none absolute inset-0 transition-opacity duration-200 motion-reduce:transition-none",
       className,
@@ -139,7 +136,7 @@ const SidebarGroup = ({
   const activeY = activeIndex === -1 ? null : (centers[activeIndex] ?? null);
   const hoverY = hoverIndex === null ? null : (centers[hoverIndex] ?? null);
 
-  // starts the neutral line where the orange one ends, so the two never overlap
+  // starts the neutral line where the active one ends, so the two never overlap
   const hoverFrom =
     activeY === null
       ? 0
@@ -164,7 +161,11 @@ const SidebarGroup = ({
           visible={hovering && hoverIndex !== activeIndex}
           className="text-foreground/30"
         />
-        <Rail y={activeY} visible={activeY !== null} color={ACTIVE_COLOR} />
+        <Rail
+          y={activeY}
+          visible={activeY !== null}
+          className="text-foreground"
+        />
 
         {items.map((item, index) => {
           const isActive = item.href === activeHref;

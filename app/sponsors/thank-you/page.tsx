@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 function CheckBadge() {
   return (
-    <span className="flex size-14 items-center justify-center rounded-full bg-[#FC4C01]/10 text-[#FC4C01]">
+    <span className="flex size-14 items-center justify-center rounded-full bg-foreground/10 text-foreground">
       <svg
         viewBox="0 0 24 24"
         fill="none"

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
+import { MoxMark } from "@/components/MoxLogo";
 
 const LINKS = [
   { label: "Components", href: "/components" },
@@ -71,14 +71,7 @@ export default function Navbar() {
             "gap-2 px-4 font-[family-name:var(--font-open-runde)] text-sm font-semibold text-foreground",
           )}
         >
-          <Image
-            src="/logos/moxui.svg"
-            alt=""
-            width={20}
-            height={20}
-            loading="eager"
-            className="h-5 w-5"
-          />
+          <MoxMark className="size-5" />
           {SITE_NAME}
         </Link>
 

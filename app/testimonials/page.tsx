@@ -1,25 +1,17 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Footer from "@/components/Footer";
 import GooeyNavbar from "@/components/GooeyNavbar";
 import HeroIntro from "@/components/HeroIntro";
 import TestimonialWall from "@/components/testimonials/TestimonialWall";
 import { fetchStarCount } from "@/lib/github";
-import { SITE_KEYWORDS } from "@/lib/seo";
+import { OG_IMAGE, SITE_KEYWORDS } from "@/lib/seo";
 import { SITE_NAME } from "@/lib/site";
+import { MoxMark } from "@/components/MoxLogo";
 
 const TITLE = `Testimonials | ${SITE_NAME}`;
 
 const DESCRIPTION =
-  "What designers and engineers say about Mox UI (MoxUI), a free, open-source registry of rare animated React components.";
-
-const OG_IMAGE = {
-  url: "/ogimage.webp",
-  width: 2400,
-  height: 1260,
-  alt: "Mox UI, rare animated React components",
-  type: "image/webp",
-};
+  "What designers and engineers say about Mox UI (MoxUI), a free, open-source registry of animated React components.";
 
 export const metadata: Metadata = {
   title: "Testimonials",
@@ -62,15 +54,7 @@ export default async function TestimonialsPage() {
         >
           <GooeyNavbar stars={stars} />
 
-          <Image
-            src="/logos/moxui.svg"
-            alt=""
-            width={263}
-            height={252}
-            loading="eager"
-            aria-hidden="true"
-            className="pointer-events-none absolute left-1/2 top-[68%] h-auto w-[860px] max-w-none -translate-x-1/2 -translate-y-1/2 opacity-[0.05] [filter:brightness(0)] dark:opacity-[0.07] dark:[filter:brightness(0)_invert(1)]"
-          />
+          <MoxMark className="pointer-events-none absolute left-1/2 top-[68%] size-[860px] max-w-none -translate-x-1/2 -translate-y-1/2 text-black opacity-[0.05] dark:text-white dark:opacity-[0.07]" />
           <div className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(120%_75%_at_50%_-5%,rgba(255,255,255,0.07),transparent_60%)] dark:block" />
 
           <div className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center gap-3 px-4 pb-20 pt-28 text-center sm:gap-4 sm:px-6">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono } from "next/font/google";
+import { Fraunces, Geist_Mono, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Databuddy } from "@databuddy/sdk/react";
@@ -10,7 +10,7 @@ import {
   SITE_TAGLINE,
   SITE_URL,
 } from "@/lib/site";
-import { SITE_KEYWORDS, siteJsonLd } from "@/lib/seo";
+import { OG_IMAGE, SITE_KEYWORDS, siteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const inter = Inter({
@@ -21,6 +21,13 @@ const inter = Inter({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  style: "italic",
+  axes: ["SOFT", "WONK", "opsz"],
 });
 
 const calSans = localFont({
@@ -85,7 +92,7 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/logos/moxui.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/logos/mox-mark.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     title: SITE_TAGLINE,
@@ -93,22 +100,13 @@ export const metadata: Metadata = {
     url: "/",
     siteName: SITE_NAME,
     locale: "en_US",
-    images: [
-      {
-        url: "/ogimage.webp",
-        width: 2400,
-        height: 1260,
-        alt: "Mox UI, rare animated React components",
-        type: "image/webp",
-      },
-    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TAGLINE,
     description: SITE_DESCRIPTION,
-    images: ["/ogimage.webp"],
+    images: [OG_IMAGE.url],
   },
 };
 
@@ -121,7 +119,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${geistMono.variable} ${openRunde.variable} ${calSans.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} ${openRunde.variable} ${calSans.variable} ${fraunces.variable} h-full antialiased`}
     >
       <head>
         <script
