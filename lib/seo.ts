@@ -8,6 +8,15 @@ import {
   SITE_URL,
 } from "@/lib/site";
 
+// rendered by app/opengraph-image.tsx
+export const OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "Mox UI, animated React components",
+  type: "image/png",
+};
+
 export const SITE_KEYWORDS = [
   "moxui",
   "mox ui",
@@ -97,7 +106,7 @@ export function siteJsonLd() {
         name: SITE_NAME,
         alternateName: SITE_ALT_NAMES,
         url: SITE_URL,
-        logo: `${SITE_URL}/logos/moxui.svg`,
+        logo: `${SITE_URL}/logos/mox-mark.svg`,
         sameAs: [SITE_REPO],
       },
       {

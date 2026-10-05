@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 5 54 54" fill="none">
+  <style>svg{color:#111111}@media (prefers-color-scheme:dark){svg{color:#ffffff}}</style>
+  <path d="M12 18V46M12 28.5A10.5 10.5 0 0 1 33 28.5V46M33 36.5A8.5 8.5 0 0 1 50 36.5V44.6" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="50.8" cy="44.6" rx="7.6" ry="5.6" fill="currentColor"/>
+</svg>

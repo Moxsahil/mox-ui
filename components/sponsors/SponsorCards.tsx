@@ -179,7 +179,7 @@ export function OpenSlotCard({
           <PlusIcon className="rotate-90" />
           <span>
             <span className="font-runde font-semibold">{hoverLabel}</span>{" "}
-            <span className="text-[#FC4C01]">&#10084;</span>
+            <span className="text-foreground">&#10084;</span>
           </span>
         </span>
       </span>

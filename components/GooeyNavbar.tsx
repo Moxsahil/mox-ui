@@ -1,7 +1,6 @@
 "use client";
 
 import { Fragment, useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
@@ -9,6 +8,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
 import { useStarCount } from "@/lib/use-star-count";
 import { cn } from "@/lib/utils";
+import { MoxMark } from "@/components/MoxLogo";
 
 const LINKS = [
   { label: "Home", href: "/" },
@@ -120,14 +120,7 @@ export default function GooeyNavbar({ stars }: { stars?: number | null }) {
             href="/"
             className={cn(pill, "flex h-12 items-center gap-2 px-4")}
           >
-            <Image
-              src="/logos/moxui.svg"
-              alt=""
-              width={20}
-              height={20}
-              loading="eager"
-              className="h-5 w-5"
-            />
+            <MoxMark className="size-5 text-white" />
             <span className="font-runde text-md font-semibold text-white">
               {SITE_NAME}
             </span>

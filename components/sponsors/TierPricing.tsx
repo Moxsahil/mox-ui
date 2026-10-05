@@ -16,7 +16,7 @@ function CheckIcon({ featured }: { featured?: boolean }) {
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
         "mt-0.5 size-3.5 shrink-0",
-        featured ? "text-[#FC4C01]" : "text-muted-foreground/45",
+        featured ? "text-foreground" : "text-muted-foreground/45",
       )}
       aria-hidden="true"
     >
@@ -30,12 +30,12 @@ function TierCard({ tier }: { tier: SponsorTier }) {
     <div
       className={cn(
         "relative flex flex-col gap-6 rounded-[44px] bg-card/60 p-7 dark:bg-muted/60",
-        tier.featured && "ring-1 ring-[#FC4C01] dark:bg-muted",
+        tier.featured && "ring-1 ring-foreground dark:bg-muted",
       )}
       style={{ cornerShape: "squircle" } as React.CSSProperties}
     >
       {tier.featured && (
-        <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FC4C01] px-3 py-1 font-runde text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+        <span className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-foreground px-3 py-1 font-runde text-[10px] font-bold uppercase tracking-[0.14em] text-background">
           Most impact
         </span>
       )}
@@ -57,7 +57,7 @@ function TierCard({ tier }: { tier: SponsorTier }) {
       <div
         className={cn(
           "h-px w-full",
-          tier.featured ? "bg-[#FC4C01]/20" : "bg-foreground/[0.08]",
+          tier.featured ? "bg-foreground/15" : "bg-foreground/[0.08]",
         )}
       />
 

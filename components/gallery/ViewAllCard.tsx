@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { MoxMark } from "@/components/MoxLogo";
 
 export default function ViewAllCard({
   count,
@@ -13,19 +13,12 @@ export default function ViewAllCard({
     <Link
       href="/components"
       className={cn(
-        "group relative flex min-h-45 flex-col justify-between overflow-hidden rounded-[32px] bg-[#FC4C01] p-6 text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25)] transition-colors duration-200 ease-out hover:bg-[#e04300]",
+        "group relative flex min-h-45 flex-col justify-between overflow-hidden rounded-[32px] bg-foreground p-6 text-background shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25)] transition-colors duration-200 ease-out hover:bg-foreground/90",
         className,
       )}
       style={{ cornerShape: "squircle" } as React.CSSProperties}
     >
-      <Image
-        src="/logos/moxui.svg"
-        alt=""
-        width={320}
-        height={320}
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-20 -right-20 h-80 w-80 opacity-25 [filter:brightness(0)_invert(1)]"
-      />
+      <MoxMark className="pointer-events-none absolute -bottom-20 -right-20 size-80 text-background opacity-25" />
 
       <svg
         viewBox="0 0 24 24"

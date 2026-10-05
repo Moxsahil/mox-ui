@@ -78,7 +78,9 @@ function DodgingDigit({
       }}
       className={cn(
         "inline-block will-change-transform",
-        accent ? "text-[#FC4C01]" : "text-black dark:text-white",
+        accent
+          ? "text-black/35 dark:text-white/40"
+          : "text-black dark:text-white",
       )}
     >
       {char}
