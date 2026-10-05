@@ -72,6 +72,31 @@ export const PANEL_INFO = {
 
 export const components: ComponentItem[] = [
   {
+    name: "SaaS template",
+    href: "/components/saastemplate",
+    category: "display",
+    registry: "saas-template",
+    isNew: true,
+    description:
+      "A dark landing page template with a navbar, a hero, and a product screenshot.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/saas-template.tsx`,
+    dependencies: [{ name: "lucide-react" }],
+    interaction:
+      "The hero fades in on load. On narrow screens, open the menu to reach the links and sign-in buttons. Get started grows on hover.",
+    props: [
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root element.",
+      },
+    ],
+    usage: `import SaasTemplate from "@/components/ui/saas-template";
+
+export default function Page() {
+  return <SaasTemplate />;
+}`,
+  },
+  {
     name: "Contribution skyline",
     href: "/components/contributionskyline",
     category: "display",
