@@ -45,6 +45,7 @@ export type ComponentItem = {
   registry?: string;
   source?: string;
   preview?: string;
+  image?: string;
   featured?: boolean;
   dependencies?: Dependency[];
   interaction?: string;
@@ -80,6 +81,7 @@ export const components: ComponentItem[] = [
     description:
       "A dark landing page template with a navbar, a hero, and a product screenshot.",
     source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/saas-template.tsx`,
+    image: "/componentdemos/saastemplate.webp",
     dependencies: [{ name: "lucide-react" }],
     interaction:
       "The hero fades in on load. On narrow screens, open the menu to reach the links and sign-in buttons. Get started grows on hover.",
@@ -1852,7 +1854,7 @@ const PM_EXECUTORS: Record<PackageManager, string> = {
 export const PACKAGE_MANAGERS = Object.keys(PM_EXECUTORS) as PackageManager[];
 
 export function installCommand(
-  item: ComponentItem,
+  item: Pick<ComponentItem, "registry">,
   pm: PackageManager = "npm",
 ): string | null {
   if (!item.registry) return null;
@@ -1865,6 +1867,10 @@ export type ComponentSection = {
   label: string;
   items: ComponentItem[];
 };
+
+export const templates = components.filter((item) =>
+  item.registry?.endsWith("-template"),
+);
 
 // gallery sections: New repeats its members so they still appear under their own category
 export const gallerySections: ComponentSection[] = [

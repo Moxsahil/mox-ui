@@ -1,13 +1,17 @@
-import SidebarShell from "@/components/Sidebar/SidebarShell";
+import DocsShell from "@/components/docs/DocsShell";
+import { PreviewControlsProvider } from "@/components/preview/PreviewControls";
+import { fetchStarCount } from "@/lib/github";
 
-export default function ComponentsLayout({
+export default async function ComponentsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const stars = await fetchStarCount();
+
   return (
-    <div className="h-screen overflow-hidden p-2 bg-background">
-      <SidebarShell>{children}</SidebarShell>
-    </div>
+    <PreviewControlsProvider>
+      <DocsShell stars={stars}>{children}</DocsShell>
+    </PreviewControlsProvider>
   );
 }

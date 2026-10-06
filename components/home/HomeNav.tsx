@@ -12,7 +12,7 @@ import { WRAP } from "./wrap";
 
 const LINKS = [
   { label: "Components", href: "/components" },
-  { label: "Templates", href: "/components/saastemplate" },
+  { label: "Templates", href: "/templates" },
   // { label: "Sponsors", href: "/sponsors" },
 ];
 

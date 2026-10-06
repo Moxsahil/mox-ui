@@ -29,7 +29,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     title: "Library",
     links: [
       { label: "Components", href: "/components" },
-      { label: "Templates", href: "/components/saastemplate" },
+      { label: "Templates", href: "/templates" },
       ...(NEWEST
         ? [{ label: NEWEST.name, href: NEWEST.href, tag: "New" }]
         : []),
