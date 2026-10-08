@@ -74,6 +74,169 @@ export const PANEL_INFO = {
 
 export const components: ComponentItem[] = [
   {
+    name: "Animated beam",
+    href: "/components/animatedbeam",
+    category: "display",
+    registry: "animated-beam",
+    isNew: true,
+    description: "Animated light beams connecting elements.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/animated-beam.tsx`,
+    preview: "/componentdemos/animatedbeam.webm",
+    dependencies: [
+      {
+        name: "motion",
+        icon: createElement(MotionIcon, { className: "h-4 w-4" }),
+      },
+    ],
+    interaction:
+      "Colored beams travel between the connected nodes. Connections stay visible without movement when reduced motion is enabled.",
+    usage: `"use client";
+
+import { useRef } from "react";
+import { AnimatedBeam } from "@/components/ui/animated-beam";
+
+export default function Example() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const fromRef = useRef<HTMLDivElement>(null);
+  const toRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative flex h-48 w-full max-w-md items-center justify-between rounded-xl border p-8"
+    >
+      <div
+        ref={fromRef}
+        className="relative z-10 flex size-12 items-center justify-center rounded-xl border bg-background"
+      >
+        A
+      </div>
+      <div
+        ref={toRef}
+        className="relative z-10 flex size-12 items-center justify-center rounded-xl border bg-background"
+      >
+        B
+      </div>
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={fromRef}
+        toRef={toRef}
+      />
+    </div>
+  );
+}`,
+    props: [
+      {
+        name: "containerRef",
+        type: "React.RefObject<HTMLElement | null>",
+        required: true,
+        description:
+          "Ref to the relatively positioned container holding both connected elements.",
+      },
+      {
+        name: "fromRef",
+        type: "React.RefObject<HTMLElement | null>",
+        required: true,
+        description: "Ref to the element where the connection starts.",
+      },
+      {
+        name: "toRef",
+        type: "React.RefObject<HTMLElement | null>",
+        required: true,
+        description: "Ref to the element where the connection ends.",
+      },
+      {
+        name: "curvature",
+        type: "number",
+        default: "0",
+        description:
+          "Vertical offset of the curve's control point in pixels. Positive values bend upward.",
+      },
+      {
+        name: "reverse",
+        type: "boolean",
+        default: "false",
+        description: "Reverses the direction of the moving beam.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        default: "2.5",
+        description: "Duration of each animation cycle in seconds.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        default: "0",
+        description: "Delay before the animation starts, in seconds.",
+      },
+      {
+        name: "pathColor",
+        type: "string",
+        default: '"currentColor"',
+        description: "Color of the static connection.",
+      },
+      {
+        name: "pathWidth",
+        type: "number",
+        default: "1.5",
+        description: "Width of the static connection in pixels.",
+      },
+      {
+        name: "pathOpacity",
+        type: "number",
+        default: "0.08",
+        description: "Opacity of the static connection, from 0 to 1.",
+      },
+      {
+        name: "gradientStartColor",
+        type: "string",
+        default: '"#3b82f6"',
+        description: "Starting color of the beam gradient.",
+      },
+      {
+        name: "gradientStopColor",
+        type: "string",
+        default: '"#8b5cf6"',
+        description: "Ending color of the beam gradient.",
+      },
+      {
+        name: "startXOffset",
+        type: "number",
+        default: "0",
+        description: "Horizontal offset of the starting point in pixels.",
+      },
+      {
+        name: "startYOffset",
+        type: "number",
+        default: "0",
+        description: "Vertical offset of the starting point in pixels.",
+      },
+      {
+        name: "endXOffset",
+        type: "number",
+        default: "0",
+        description: "Horizontal offset of the ending point in pixels.",
+      },
+      {
+        name: "endYOffset",
+        type: "number",
+        default: "0",
+        description: "Vertical offset of the ending point in pixels.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root SVG.",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Inline styles applied to the root SVG.",
+      },
+    ],
+  },
+  {
     name: "Liquid metal card",
     href: "/components/liquidmetalcard",
     category: "display",

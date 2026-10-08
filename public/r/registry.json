@@ -17,6 +17,20 @@
       ]
     },
     {
+      "name": "animated-beam",
+      "type": "registry:ui",
+      "title": "Animated Beam",
+      "description": "Animated light beams connecting elements.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/animated-beam.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "liquid-metal-id-card",
       "type": "registry:ui",
       "title": "Liquid Metal Card",
