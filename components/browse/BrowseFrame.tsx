@@ -5,7 +5,6 @@ import Link from "next/link";
 import { GithubLogo } from "@/components/logos";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
-import { useStarCount } from "@/lib/use-star-count";
 import { cn } from "@/lib/utils";
 import { ChevronIcon } from "./icons";
 
@@ -36,8 +35,6 @@ export default function BrowseFrame({
   stars?: number | null;
   children: ReactNode;
 }) {
-  const liveStars = useStarCount(stars);
-
   return (
     <div className="home flex min-h-svh flex-1 flex-col bg-home-bg font-runde text-home-fg md:flex-row">
       {sidebar}
@@ -91,7 +88,7 @@ export default function BrowseFrame({
               >
                 <GithubLogo className="size-4" />
                 <span className="hidden tabular-nums sm:inline">
-                  {liveStars != null ? compact.format(liveStars) : "Star"}
+                  {stars != null ? compact.format(stars) : "Star"}
                 </span>
               </a>
             )}

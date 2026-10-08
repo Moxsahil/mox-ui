@@ -9,10 +9,7 @@ import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MoxMark } from "@/components/MoxLogo";
 
-const LINKS = [
-  { label: "Components", href: "/components" },
-  // { label: "Sponsors", href: "/#sponsors" },
-];
+const LINKS = [{ label: "Components", href: "/components" }];
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg

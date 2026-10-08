@@ -1,5 +1,6 @@
 import { createElement, type ReactNode } from "react";
 import { MotionIcon } from "@/components/Description/icons";
+import { SITE_REPO } from "@/lib/site";
 
 export type Dependency = {
   name: string;
@@ -54,7 +55,7 @@ export type ComponentItem = {
   credits?: string[];
 };
 
-export const REGISTRY_HOMEPAGE = "https://github.com/mox/mox-ui";
+export const REGISTRY_HOMEPAGE = SITE_REPO;
 export const REGISTRY_REPO = "mox/mox-ui";
 
 export const PANEL_INFO = {
