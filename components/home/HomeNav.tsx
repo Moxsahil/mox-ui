@@ -5,7 +5,6 @@ import Link from "next/link";
 import ThemeToggle from "@/components/ThemeToggle";
 import { GithubLogo } from "@/components/logos";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
-import { useStarCount } from "@/lib/use-star-count";
 import { cn } from "@/lib/utils";
 import { MoxMark } from "@/components/MoxLogo";
 import { WRAP } from "./wrap";
@@ -13,13 +12,11 @@ import { WRAP } from "./wrap";
 const LINKS = [
   { label: "Components", href: "/components" },
   { label: "Templates", href: "/templates" },
-  // { label: "Sponsors", href: "/sponsors" },
 ];
 
 const compact = new Intl.NumberFormat("en", { notation: "compact" });
 
 export default function HomeNav({ stars }: { stars?: number | null }) {
-  const liveStars = useStarCount(stars);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -72,7 +69,7 @@ export default function HomeNav({ stars }: { stars?: number | null }) {
             >
               <GithubLogo className="size-4" />
               <span className="hidden tabular-nums sm:inline">
-                {liveStars != null ? compact.format(liveStars) : "Star"}
+                {stars != null ? compact.format(stars) : "Star"}
               </span>
             </a>
           )}

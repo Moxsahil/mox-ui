@@ -114,7 +114,7 @@ Every component page on the [website](https://mox-ui.vercel.app/components) has 
 This repo is the registry and the docs site in one Next.js app. It uses pnpm and Node.js 20.9 or newer.
 
 ```bash
-git clone https://github.com/mox/mox-ui.git
+git clone https://github.com/Moxsahil/mox-ui.git
 cd mox-ui
 pnpm install
 pnpm dev
@@ -149,7 +149,7 @@ Issues and pull requests are welcome. [CONTRIBUTING.md](CONTRIBUTING.md) walks t
 
 CI checks every pull request for formatting, types, lint errors and a clean build. A pre-commit hook lints and formats staged files for you.
 
-Found a bug? [Open an issue](https://github.com/mox/mox-ui/issues).
+Found a bug? [Open an issue](https://github.com/Moxsahil/mox-ui/issues).
 
 ## Credits
 

@@ -15,7 +15,6 @@ import {
 import { SITE_GITHUB_URL, SITE_X_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { MoxMark } from "@/components/MoxLogo";
-// import { TIERS_HREF } from "@/lib/sponsors";
 import { createSmoke } from "./footer/smoke";
 import { GithubLogo, XLogo } from "./logos";
 
@@ -33,8 +32,6 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
       ...(NEWEST
         ? [{ label: NEWEST.name, href: NEWEST.href, tag: "New" }]
         : []),
-      // { label: "Sponsors", href: "/sponsors" },
-      // { label: "Pricing", href: TIERS_HREF },
     ],
   },
   {

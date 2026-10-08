@@ -6,14 +6,12 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
-import { useStarCount } from "@/lib/use-star-count";
 import { cn } from "@/lib/utils";
 import { MoxMark } from "@/components/MoxLogo";
 
 const LINKS = [
   { label: "Home", href: "/" },
   { label: "Components", href: "/components" },
-  // { label: "Sponsors", href: "/sponsors" },
 ];
 
 const GithubIcon = ({ className }: { className?: string }) => (
@@ -53,7 +51,6 @@ const pill = "rounded-full border-apple bg-neutral-900";
 
 export default function GooeyNavbar({ stars }: { stars?: number | null }) {
   const pathname = usePathname();
-  const liveStars = useStarCount(stars);
   const [scrolled, setScrolled] = useState(false);
   const [starHovered, setStarHovered] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -252,9 +249,9 @@ export default function GooeyNavbar({ stars }: { stars?: number | null }) {
                 </motion.span>
               </span>
 
-              {liveStars != null && (
+              {stars != null && (
                 <span className="pr-4 font-runde text-sm font-medium tabular-nums text-white/80">
-                  {liveStars}
+                  {stars}
                 </span>
               )}
             </a>
