@@ -17,6 +17,34 @@
       ]
     },
     {
+      "name": "liquid-metal-id-card",
+      "type": "registry:ui",
+      "title": "Liquid Metal Card",
+      "description": "A metallic debit card with a reflective surface.",
+      "dependencies": ["framer-motion@13.4.6", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/liquid-metal-id-card.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "magazine-template",
+      "type": "registry:ui",
+      "title": "Magazine Template",
+      "description": "An editorial magazine template with featured stories, a visual index, and an issue archive.",
+      "dependencies": ["motion", "lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/magazine-template.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "saas-template",
       "type": "registry:ui",
       "title": "SaaS Template",
