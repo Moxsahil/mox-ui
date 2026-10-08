@@ -73,6 +73,105 @@ export const PANEL_INFO = {
 
 export const components: ComponentItem[] = [
   {
+    name: "Liquid metal card",
+    href: "/components/liquidmetalcard",
+    category: "display",
+    registry: "liquid-metal-id-card",
+    isNew: true,
+    description: "A metallic debit card with a reflective surface.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/liquid-metal-id-card.tsx`,
+    image: "/componentdemos/liquidmetalcard.webp",
+    dependencies: [
+      {
+        name: "framer-motion",
+        icon: createElement(MotionIcon, { className: "h-4 w-4" }),
+      },
+      { name: "lucide-react" },
+    ],
+    interaction:
+      "Move your pointer over the card to tilt it and shift the reflections. Click or tap to flip it with a soft whoosh. You can also focus it and press Enter or Space.",
+    props: [
+      {
+        name: "name",
+        type: "string",
+        default: '"Sahil Barak"',
+        description: "Cardholder name shown on both sides.",
+      },
+      {
+        name: "cardType",
+        type: "string",
+        default: '"Debit"',
+        description: "Card type label.",
+      },
+      {
+        name: "cardNumber",
+        type: "string",
+        default: '"1234 5678 9012 3456"',
+        description:
+          "Number shown on the front. Its last four characters appear on the back.",
+      },
+      {
+        name: "expiry",
+        type: "string",
+        default: '"09/29"',
+        description: "Expiry text shown on the front.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root element.",
+      },
+      {
+        name: "style",
+        type: "React.CSSProperties",
+        description: "Inline styles applied to the root element.",
+      },
+    ],
+    usage: `import { LiquidMetalIDCard } from "@/components/ui/liquid-metal-id-card";
+
+export default function Page() {
+  return <LiquidMetalIDCard />;
+}`,
+  },
+  {
+    name: "Magazine template",
+    href: "/components/magazinetemplate",
+    category: "display",
+    registry: "magazine-template",
+    isNew: true,
+    description:
+      "An editorial magazine template with featured stories, a visual index, and an issue archive.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/magazine-template.tsx`,
+    preview: "/componentdemos/magazinetemplate.webm",
+    dependencies: [
+      {
+        name: "motion",
+        icon: createElement(MotionIcon, { className: "h-4 w-4" }),
+      },
+      { name: "lucide-react" },
+    ],
+    interaction:
+      "Hover or focus a story to reveal a floating preview. Search by title or category. Use the navigation links to jump between sections, or open the menu on narrow screens.",
+    props: [
+      {
+        name: "onSubscribe",
+        type: "(email: string) => void | Promise<void>",
+        description:
+          "Submits an email to your newsletter provider. Omit to keep submission disabled.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root element.",
+      },
+    ],
+    usage: `import MagazineTemplate from "@/components/ui/magazine-template";
+
+export default function Page() {
+  return <MagazineTemplate />;
+}`,
+  },
+  {
     name: "SaaS template",
     href: "/components/saastemplate",
     category: "display",
