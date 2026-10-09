@@ -29,27 +29,27 @@ export default function DocsOptions({ item }: { item: ComponentItem }) {
     <section
       id="options"
       aria-labelledby="options-title"
-      className="mt-16 scroll-mt-24"
+      className="mt-12 scroll-mt-24"
     >
       <h2
         id="options-title"
-        className="text-[28px] font-bold tracking-[-0.025em]"
+        className="text-[22px] font-semibold tracking-tight"
       >
         Options
       </h2>
-      <p className="mt-2.5 text-[15px] leading-relaxed text-home-fg-2">
+      <p className="mt-2.5 text-sm leading-relaxed text-home-fg-2">
         Pick a value to see the prop you would pass. Defaults are left out.
       </p>
 
-      <div className="mt-4.5 overflow-hidden rounded-[20px] border border-home-line bg-home-surface">
+      <div className="mt-5 overflow-hidden rounded-[10px] border border-home-line bg-home-bg">
         <div className="flex flex-col gap-5 p-5">
           {props.map((prop) => (
             <div key={prop.name} className="flex flex-col gap-2.5">
-              <span className="font-mono text-[12.5px] text-home-blue">
+              <span className="font-mono text-xs text-home-fg">
                 {prop.name}
               </span>
               <div
-                role="radiogroup"
+                role="group"
                 aria-label={prop.name}
                 className="flex flex-wrap gap-2"
               >
@@ -60,8 +60,7 @@ export default function DocsOptions({ item }: { item: ComponentItem }) {
                     <button
                       key={option}
                       type="button"
-                      role="radio"
-                      aria-checked={active}
+                      aria-pressed={active}
                       onClick={() =>
                         setPicked((current) => ({
                           ...current,
@@ -69,9 +68,9 @@ export default function DocsOptions({ item }: { item: ComponentItem }) {
                         }))
                       }
                       className={cn(
-                        "flex h-9 cursor-pointer items-center gap-2 rounded-full border px-3.5 font-mono text-[12.5px] transition-colors duration-150",
+                        "flex h-8 cursor-pointer items-center gap-2 rounded-md border px-3 font-mono text-xs transition-colors duration-150 motion-reduce:transition-none",
                         active
-                          ? "border-home-blue/60 bg-home-blue/10 text-home-fg"
+                          ? "border-home-fg-2 bg-home-raised text-home-fg"
                           : "border-home-line-strong text-home-fg-2 hover:border-home-fg-2 hover:text-home-fg",
                       )}
                     >

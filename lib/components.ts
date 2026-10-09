@@ -941,6 +941,7 @@ export function Demo() {
         icon: createElement(MotionIcon, { className: "h-4 w-4" }),
       },
       { name: "prism-react-renderer" },
+      { name: "lucide-react" },
     ],
     interaction:
       "Pick an accent swatch to re-shade the whole block from that color. Hit the copy button to see it spring into a check.",
