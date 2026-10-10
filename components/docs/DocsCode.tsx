@@ -1,31 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
+import { Terminal } from "lucide-react";
 import { Highlight, type PrismTheme } from "prism-react-renderer";
 import CopyButton from "@/components/CopyButton";
 import { cn } from "@/lib/utils";
 
-// code stays on a dark surface in both themes, so one palette covers it and the root carries .dark
 const THEME: PrismTheme = {
-  plain: { color: "#E4E4E7", backgroundColor: "transparent" },
+  plain: { color: "var(--home-fg)", backgroundColor: "transparent" },
   styles: [
     {
       types: ["comment", "prolog", "doctype"],
-      style: { color: "#71717A", fontStyle: "italic" },
+      style: { color: "var(--home-muted)", fontStyle: "italic" },
     },
-    { types: ["keyword", "builtin", "important"], style: { color: "#8EB2FF" } },
+    {
+      types: ["keyword", "builtin", "important"],
+      style: { color: "var(--code-keyword)" },
+    },
     {
       types: ["string", "attr-value", "template-string", "char"],
-      style: { color: "#E9C46A" },
+      style: { color: "var(--code-string)" },
     },
-    { types: ["number", "boolean", "constant"], style: { color: "#F0A27A" } },
     {
-      types: ["tag", "class-name", "maybe-class-name"],
-      style: { color: "#7DD3FC" },
+      types: ["number", "boolean", "constant"],
+      style: { color: "var(--code-number)" },
     },
-    { types: ["function"], style: { color: "#C4B5FD" } },
-    { types: ["attr-name", "property"], style: { color: "#BFDBFE" } },
-    { types: ["punctuation", "operator"], style: { color: "#A1A1AA" } },
+    {
+      types: ["tag", "class-name", "maybe-class-name", "function"],
+      style: { color: "var(--code-function)" },
+    },
+    {
+      types: ["attr-name", "property"],
+      style: { color: "var(--code-keyword)" },
+    },
+    {
+      types: ["punctuation", "operator"],
+      style: { color: "var(--home-fg-2)" },
+    },
   ],
 };
 
@@ -33,9 +44,10 @@ export default function DocsCode({
   code,
   filename,
   language = "tsx",
-  lineNumbers = true,
+  lineNumbers = false,
   peek,
   note,
+  embedded = false,
   className,
 }: {
   code: string;
@@ -44,9 +56,11 @@ export default function DocsCode({
   lineNumbers?: boolean;
   peek?: number;
   note?: string;
+  embedded?: boolean;
   className?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const id = useId();
   const lines = code.replace(/\n+$/, "").split("\n");
   const total = lines.length;
   const collapsible = peek !== undefined && total > peek;
@@ -56,75 +70,84 @@ export default function DocsCode({
   return (
     <div
       className={cn(
-        "dark overflow-hidden rounded-2xl border border-white/8 bg-[#0C0C0F] text-[#E4E4E7]",
+        "overflow-hidden bg-home-bg text-home-fg [--code-function:#9a3412] [--code-keyword:#1d4ed8] [--code-number:#a16207] [--code-string:#0f766e] dark:[--code-function:#fdba74] dark:[--code-keyword:#93c5fd] dark:[--code-number:#fcd34d] dark:[--code-string:#5eead4]",
+        !embedded && "rounded-[10px] border border-home-line",
         className,
       )}
     >
-      <div className="flex min-h-10.5 items-center justify-between gap-3 border-b border-white/6 pl-3.5 pr-2">
-        <span className="truncate font-mono text-xs text-[#A1A1AA]">
-          {filename ?? language}
+      <div className="flex h-8.5 items-center justify-between gap-3 border-b border-home-line bg-home-surface pl-4 pr-2">
+        <span className="flex min-w-0 items-center gap-2 text-xs text-home-muted">
+          <Terminal aria-hidden="true" className="size-3 shrink-0" />
+          <span className="truncate">{filename ?? language}</span>
         </span>
         <CopyButton
           value={code}
           label={filename ? `Copy ${filename}` : "Copy code"}
-          className="size-8 rounded-lg text-[#A1A1AA] hover:bg-white/6 hover:text-white"
+          className="size-7 rounded-md text-home-muted hover:bg-home-raised hover:text-home-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg"
         />
       </div>
 
       <div
+        id={id}
+        role="region"
+        aria-label={filename ? `${filename} source code` : "Source code"}
+        tabIndex={0}
         className={cn(
-          "relative overflow-x-auto py-3.5 font-mono text-[13px] leading-[1.75]",
+          "relative overflow-x-auto py-4 font-mono text-[13px] leading-[1.65] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-home-fg/50",
           expanded && "max-h-160 overflow-y-auto",
         )}
       >
         <Highlight code={shown} language={language} theme={THEME}>
           {({ tokens, getLineProps, getTokenProps }) => (
             <pre className="min-w-max">
-              {tokens.map((line, index) => {
-                const lineProps = getLineProps({ line });
-                return (
-                  <div
-                    key={index}
-                    {...lineProps}
-                    className={cn(lineProps.className, "flex pr-6")}
-                  >
-                    {lineNumbers && (
-                      <span
-                        aria-hidden="true"
-                        className="w-12 shrink-0 select-none pr-4.5 text-right text-[#52525B]"
-                      >
-                        {index + 1}
+              <code>
+                {tokens.map((line, index) => {
+                  const lineProps = getLineProps({ line });
+                  return (
+                    <span
+                      key={index}
+                      {...lineProps}
+                      className={cn(lineProps.className, "flex pr-4")}
+                    >
+                      {lineNumbers && (
+                        <span
+                          aria-hidden="true"
+                          className="w-12 shrink-0 select-none pr-4 text-right text-home-muted"
+                        >
+                          {index + 1}
+                        </span>
+                      )}
+                      <span className={cn(!lineNumbers && "pl-4")}>
+                        {line.map((token, key) => (
+                          <span key={key} {...getTokenProps({ token })} />
+                        ))}
                       </span>
-                    )}
-                    <span className={cn(!lineNumbers && "pl-4")}>
-                      {line.map((token, key) => (
-                        <span key={key} {...getTokenProps({ token })} />
-                      ))}
                     </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </code>
             </pre>
           )}
         </Highlight>
         {collapsed && (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-22 bg-linear-to-b from-transparent to-[#0C0C0F]"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-b from-transparent to-home-bg"
           />
         )}
       </div>
 
       {collapsible && (
-        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-white/6 px-3.5 py-2.5">
-          <span className="text-[12.5px] text-[#8B8B93]">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-home-line px-4 py-2">
+          <span className="text-xs text-home-muted">
             {note ?? `${total} lines`}
           </span>
           <button
             type="button"
             onClick={() => setExpanded((value) => !value)}
             aria-expanded={expanded}
-            className="h-8 cursor-pointer rounded-[9px] border border-white/12 px-3 text-[13px] text-white transition-colors duration-150 hover:border-white/25"
+            aria-controls={id}
+            className="h-7 cursor-pointer rounded-md border border-home-line-strong px-2.5 text-xs text-home-fg transition-colors duration-150 hover:bg-home-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg motion-reduce:transition-none"
           >
             {expanded ? "Collapse" : `Show all ${total} lines`}
           </button>

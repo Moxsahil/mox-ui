@@ -4,14 +4,21 @@ import {
   components,
   installCommand,
   REGISTRY_HOMEPAGE,
+  templates,
   type ComponentItem,
 } from "@/lib/components";
 import { SITE_URL } from "@/lib/site";
 
-// the sidebar reads by category, so previous and next follow the same order
-export const READING_ORDER = CATEGORY_ORDER.flatMap((id) =>
-  components.filter((item) => item.category === id),
-);
+export const READING_ORDER = [
+  ...components.filter((item) => item.featured && !templates.includes(item)),
+  ...CATEGORY_ORDER.flatMap((id) =>
+    components.filter(
+      (item) =>
+        item.category === id && !item.featured && !templates.includes(item),
+    ),
+  ),
+  ...templates,
+];
 
 export function neighbours(item: ComponentItem) {
   const index = READING_ORDER.indexOf(item);

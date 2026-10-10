@@ -151,6 +151,29 @@
   --home-glow-3: rgb(255 255 255 / 0.04);
 }
 
+.docs-page {
+  --home-surface: #fafafa;
+  --home-raised: #f2f2f2;
+  --home-line: #e5e5e5;
+  --home-line-strong: #d4d4d4;
+}
+
+.dark .docs-page {
+  --home-bg: #000000;
+  --home-surface: #0d0d0d;
+  --home-raised: #171717;
+  --home-line: #202020;
+  --home-line-strong: #303030;
+  --home-fg: #f5f5f5;
+  --home-fg-2: #a3a3a3;
+  --home-muted: #929292;
+}
+
+.docs-page :where(a, button, summary):focus-visible {
+  outline: 2px solid var(--home-fg);
+  outline-offset: 3px;
+}
+
 /* the hero sits on a blue field, so its text and lines get their own contrast */
 .home-hero {
   --home-fg-2: #3f4a66;

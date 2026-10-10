@@ -57,11 +57,7 @@ export function BrowserShell({
   // pushState keeps useSearchParams in sync without a server round trip
   const navigate = (next: BrowseView) => {
     setQuery("");
-    window.history.pushState(
-      null,
-      "",
-      next === "overview" ? "/components" : `/components?view=${next}`,
-    );
+    window.history.pushState(null, "", `/components?view=${next}`);
     window.scrollTo({ top: 0 });
   };
 
@@ -117,7 +113,7 @@ export function BrowserShell({
   return (
     <BrowseFrame
       crumbs={[
-        { label: "Components", href: "/components" },
+        { label: "Components", href: "/components?view=overview" },
         { label: searching ? "Search" : VIEW_LABELS[view] },
       ]}
       sidebar={sidebar}

@@ -1,192 +1,235 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  Maximize,
+  Minimize,
+  PanelsTopLeft,
+  RotateCcw,
+  Terminal,
+} from "lucide-react";
+import {
+  fetchSource,
+  SOURCE_ERROR,
+} from "@/components/Description/fetchSource";
 import { cn } from "@/lib/utils";
 import DocsCode from "./DocsCode";
-
-type Viewport = "desktop" | "tablet" | "mobile";
-
-const VIEWPORTS: {
-  id: Viewport;
-  label: string;
-  width: string;
-  icon: string;
-}[] = [
-  {
-    id: "desktop",
-    label: "Full width",
-    width: "100%",
-    icon: "M3.5 5.5h17v11h-17zM9 20h6M12 16.5V20",
-  },
-  {
-    id: "tablet",
-    label: "Tablet width, 768 px",
-    width: "768px",
-    icon: "M6 3h12a1.5 1.5 0 0 1 1.5 1.5v15A1.5 1.5 0 0 1 18 21H6a1.5 1.5 0 0 1-1.5-1.5v-15A1.5 1.5 0 0 1 6 3zM11 18h2",
-  },
-  {
-    id: "mobile",
-    label: "Phone width, 390 px",
-    width: "390px",
-    icon: "M8 3h8a1.5 1.5 0 0 1 1.5 1.5v15A1.5 1.5 0 0 1 16 21H8a1.5 1.5 0 0 1-1.5-1.5v-15A1.5 1.5 0 0 1 8 3zM11 18h2",
-  },
-];
+import DocsTabs from "./DocsTabs";
 
 const TOOL =
-  "flex size-9 cursor-pointer items-center justify-center rounded-[10px] text-home-fg-2 transition-colors duration-150 hover:bg-home-line hover:text-home-fg";
+  "flex size-8 cursor-pointer items-center justify-center rounded-md text-home-muted transition-colors hover:bg-home-raised hover:text-home-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg";
 
-function Glyph({ d }: { d: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="size-4.25"
-    >
-      <path d={d} />
-    </svg>
-  );
+interface DocsPreviewProps {
+  registry?: string;
+  usage?: string;
+  children: ReactNode;
+  scrollable?: boolean;
 }
 
 export default function DocsPreview({
+  registry,
   usage,
-  hint,
   children,
-}: {
-  usage?: string;
-  hint?: string;
-  children: ReactNode;
-}) {
+  scrollable = false,
+}: DocsPreviewProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<"preview" | "code">("preview");
-  const [viewport, setViewport] = useState<Viewport>("desktop");
+  const [source, setSource] = useState<string | null>(null);
   const [run, setRun] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  const [fullscreenError, setFullscreenError] = useState(false);
 
   useEffect(() => {
-    const sync = () =>
+    const sync = () => {
       setFullscreen(document.fullscreenElement === stageRef.current);
+    };
+
     document.addEventListener("fullscreenchange", sync);
-    return () => document.removeEventListener("fullscreenchange", sync);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", sync);
+    };
   }, []);
 
-  const current = VIEWPORTS.find((option) => option.id === viewport)!;
+  const loadSource = async () => {
+    if (!registry) return;
+
+    setSource(null);
+    setSource(await fetchSource(registry));
+  };
+
+  const chooseTab = (next: "preview" | "code") => {
+    setTab(next);
+
+    if (next === "code" && registry && source === null) {
+      void loadSource();
+    }
+  };
+
+  const toggleFullscreen = async () => {
+    setFullscreenError(false);
+
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else if (stageRef.current?.requestFullscreen) {
+        await stageRef.current.requestFullscreen();
+      } else {
+        setFullscreenError(true);
+      }
+    } catch {
+      setFullscreenError(true);
+    }
+  };
+
+  const constrained = scrollable || fullscreen;
 
   return (
     <section
       id="preview"
-      aria-label="Preview"
-      className="mt-9 scroll-mt-24 overflow-hidden rounded-3xl border border-home-line bg-home-surface"
+      aria-label="Component preview and code"
+      className="scroll-mt-24 overflow-hidden rounded-[10px] border border-home-line bg-home-bg"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-home-line p-2.5">
-        <div
-          role="tablist"
-          aria-label="Preview or code"
-          className="flex gap-0.5 rounded-xl bg-home-raised p-0.75"
-        >
-          {(["preview", "code"] as const).map((id) => (
+      {/* Preview / Code toolbar */}
+      <div className="flex h-9 items-center justify-between border-b border-home-line bg-home-surface px-2">
+        <DocsTabs
+          id="component-demo"
+          label="Preview or code"
+          value={tab}
+          onChange={chooseTab}
+          options={[
+            {
+              id: "preview",
+              label: "Preview",
+              icon: <PanelsTopLeft className="size-3.5" aria-hidden="true" />,
+            },
+            {
+              id: "code",
+              label: "Code",
+              icon: <Terminal className="size-3.5" aria-hidden="true" />,
+            },
+          ]}
+        />
+
+        {tab === "preview" && (
+          <div className="flex items-center gap-1">
             <button
-              key={id}
               type="button"
-              role="tab"
-              aria-selected={tab === id}
-              aria-controls={`docs-${id}`}
-              onClick={() => setTab(id)}
+              onClick={() => setRun((value) => value + 1)}
+              aria-label="Replay preview"
+              title="Replay preview"
+              className={TOOL}
+            >
+              <RotateCcw className="size-3.5" aria-hidden="true" />
+            </button>
+
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label="Show preview fullscreen"
+              title="Show preview fullscreen"
+              className={TOOL}
+            >
+              <Maximize className="size-3.5" aria-hidden="true" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Preview panel */}
+      <div
+        id="component-demo-preview-panel"
+        role="tabpanel"
+        aria-labelledby="component-demo-preview-tab"
+        hidden={tab !== "preview"}
+        tabIndex={0}
+      >
+        <div
+          ref={stageRef}
+          className={cn(
+            "relative isolate flex w-full min-w-0 bg-home-bg",
+            fullscreen
+              ? "h-svh"
+              : scrollable
+                ? "h-[min(70svh,650px)] min-h-[350px]"
+                : "min-h-[280px]",
+          )}
+        >
+          <div
+            key={run}
+            className={cn(
+              "w-full min-w-0",
+              constrained
+                ? "h-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain"
+                : "flex items-center justify-center p-4 sm:p-6 lg:p-8",
+            )}
+          >
+            {children}
+          </div>
+
+          {/* Fullscreen exit button */}
+          {fullscreen && (
+            <button
+              type="button"
+              onClick={toggleFullscreen}
+              aria-label="Exit fullscreen"
+              title="Exit fullscreen"
               className={cn(
-                "h-8 cursor-pointer rounded-[9px] px-3.5 text-[13.5px] font-medium capitalize transition-colors duration-150",
-                tab === id
-                  ? "bg-home-bg text-home-fg shadow-sm"
-                  : "text-home-muted hover:text-home-fg",
+                TOOL,
+                "absolute right-3 top-3 z-50 border border-home-line bg-home-bg",
               )}
             >
-              {id}
+              <Minimize className="size-4" aria-hidden="true" />
             </button>
-          ))}
+          )}
         </div>
 
-        <div className="flex items-center gap-1">
-          <div className="hidden items-center gap-1 lg:flex">
-            {VIEWPORTS.map((option) => (
-              <button
-                key={option.id}
-                type="button"
-                onClick={() => setViewport(option.id)}
-                aria-label={option.label}
-                aria-pressed={viewport === option.id}
-                className={cn(
-                  TOOL,
-                  viewport === option.id && "bg-home-line text-home-fg",
-                )}
-              >
-                <Glyph d={option.icon} />
-              </button>
-            ))}
-            <span aria-hidden="true" className="mx-1 h-5 w-px bg-home-line" />
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              setTab("preview");
-              setRun((value) => value + 1);
-            }}
-            aria-label="Replay preview"
-            className={TOOL}
+        {fullscreenError && (
+          <p
+            role="status"
+            className="border-t border-home-line px-4 py-2 text-xs text-home-fg-2"
           >
-            <Glyph d="M4 4v6h6M20 12a8 8 0 1 1-2.34-5.66L20 8.5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setTab("preview");
-              stageRef.current?.requestFullscreen?.().catch(() => {});
-            }}
-            aria-label="Show preview fullscreen"
-            className={TOOL}
-          >
-            <Glyph d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-          </button>
-        </div>
+            Fullscreen is unavailable in this browser.
+          </p>
+        )}
       </div>
 
-      <div id="docs-preview" role="tabpanel" hidden={tab !== "preview"}>
-        <div ref={stageRef} className="flex justify-center bg-card p-3 sm:p-5">
-          <div
-            className={cn(
-              "relative w-full overflow-hidden rounded-2xl transition-[max-width] duration-500 ease-[cubic-bezier(0.3,1.1,0.4,1)] motion-reduce:transition-none",
-              fullscreen
-                ? "h-[calc(100svh-2.5rem)]"
-                : "h-[clamp(26rem,62svh,40rem)]",
-              viewport !== "desktop" && "border border-home-line-strong",
-            )}
-            style={{ maxWidth: current.width }}
-          >
-            <div key={run} className="h-full w-full overflow-auto">
-              {children}
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-home-line px-4 py-2.5 text-[12.5px] text-home-muted">
-          <span>{current.label}</span>
-          {hint && <span>{hint}</span>}
-        </div>
-      </div>
-
+      {/* Code panel */}
       <div
-        id="docs-code"
+        id="component-demo-code-panel"
         role="tabpanel"
+        aria-labelledby="component-demo-code-tab"
         hidden={tab !== "code"}
-        className="p-3.5"
+        tabIndex={0}
+        className="max-h-150 overflow-y-auto"
       >
-        {usage ? (
-          <DocsCode code={usage} filename="demo.tsx" />
+        {registry && source === null ? (
+          <p role="status" className="p-6 text-sm text-home-fg-2">
+            Loading component source...
+          </p>
+        ) : source === SOURCE_ERROR ? (
+          <div
+            role="status"
+            className="flex items-center gap-3 p-6 text-sm text-home-fg-2"
+          >
+            Unable to load source.
+            <button
+              type="button"
+              onClick={loadSource}
+              className="cursor-pointer text-home-fg underline underline-offset-4"
+            >
+              Try again
+            </button>
+          </div>
+        ) : source || usage ? (
+          <DocsCode
+            code={source ?? usage!}
+            filename={registry ? `${registry}.tsx` : "demo.tsx"}
+            embedded
+          />
         ) : (
-          <p className="p-4 text-sm text-home-fg-2">
-            This component has no usage snippet yet. The full source is in the
-            manual installation steps.
+          <p className="p-6 text-sm text-home-fg-2">
+            Source is not available for this component.
           </p>
         )}
       </div>

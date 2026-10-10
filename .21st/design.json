@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "project": {
+    "name": "mox-ui",
+    "productType": "React component library",
+    "stack": ["nextjs", "react", "shadcn", "tailwind-v4"]
+  },
+  "sources": {
+    "tokens": ["app/globals.css"],
+    "components": ["components/ui", "components/docs"],
+    "instructions": ["AGENTS.md", "CONVENTIONS.md"]
+  },
+  "design": {
+    "colorMode": "light-and-dark"
+  },
+  "components": {
+    "preferredPrimitives": ["existing project components"],
+    "patterns": [
+      "shared component documentation shell",
+      "keyboard-accessible underline tabs",
+      "registry-backed installation instructions"
+    ]
+  },
+  "constraints": {
+    "must": [
+      "Preserve Mox UI branding and existing component demos.",
+      "Scope the reference palette to .docs-page.",
+      "Keep mobile navigation and keyboard interactions accessible."
+    ],
+    "avoid": [
+      "New dependencies for documentation styling.",
+      "Changes to component registry source for documentation styling."
+    ]
+  },
+  "decisions": [
+    {
+      "scope": "components/docs",
+      "decision": "Match the supplied Forge UI component documentation reference: full-width header, flat left navigation, centered preview and source tabs, numbered installation steps, and a right page index. Use Mox UI branding and existing catalog data.",
+      "reference": "https://forgeui.in/components/animated-form"
+    }
+  ],
+  "generatedAt": "2026-10-08T17:31:29.258Z"
+}
