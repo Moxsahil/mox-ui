@@ -4,7 +4,7 @@ import { LiquidMetalIDCard } from "@/components/ui/liquid-metal-id-card";
 
 export default function LiquidMetalCardDemo() {
   return (
-    <div className="relative flex min-h-full w-full items-center justify-center bg-black px-4 py-12 sm:px-8">
+    <div className="relative flex min-h-full w-full items-center justify-center px-4 py-12 sm:px-8">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-20"

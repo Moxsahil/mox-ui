@@ -5,18 +5,73 @@ import {
   installCommand,
   REGISTRY_HOMEPAGE,
   templates,
+  type ComponentCategory,
   type ComponentItem,
 } from "@/lib/components";
 import { SITE_URL } from "@/lib/site";
+import type { TocSection } from "./DocsToc";
 
-export const READING_ORDER = [
-  ...components.filter((item) => item.featured && !templates.includes(item)),
-  ...CATEGORY_ORDER.flatMap((id) =>
-    components.filter(
+export const GUIDES: Partial<
+  Record<string, { title: string; sections: TocSection[] }>
+> = {
+  "/docs/introduction": {
+    title: "Introduction",
+    sections: [
+      { id: "introduction", label: "Introduction" },
+      { id: "whats-inside", label: "What's inside" },
+      { id: "philosophy", label: "Philosophy" },
+      { id: "faq", label: "FAQ" },
+    ],
+  },
+  "/docs/installation": {
+    title: "Installation",
+    sections: [
+      { id: "create-project", label: "Create a project" },
+      { id: "project-options", label: "Recommended defaults" },
+      { id: "set-up-shadcn", label: "Set up shadcn" },
+      { id: "add-component", label: "Add a component" },
+      { id: "use-component", label: "Use it in a page" },
+      { id: "start-server", label: "Start the server" },
+    ],
+  },
+};
+
+const CATEGORY_NOTES: Record<ComponentCategory, string> = {
+  display: "Counters, calendars, code blocks and other content that moves",
+  ai: "Orbs and loading states for voice and image generation",
+  navigation:
+    "Sidebars, nav bars and scroll indicators that show where you are",
+  inputs: "Pickers, code inputs and buttons that confirm in place",
+  feedback: "Reactions and notifications that answer a tap",
+};
+
+export const COMPONENT_GROUPS: {
+  id: string;
+  label: string;
+  note: string;
+  items: ComponentItem[];
+}[] = [
+  {
+    id: "featured",
+    label: "Featured Components",
+    note: "The components people reach for first",
+    items: components.filter(
+      (item) => item.featured && !templates.includes(item),
+    ),
+  },
+  ...CATEGORY_ORDER.map((id) => ({
+    id,
+    label: CATEGORY_LABELS[id],
+    note: CATEGORY_NOTES[id],
+    items: components.filter(
       (item) =>
         item.category === id && !item.featured && !templates.includes(item),
     ),
-  ),
+  })),
+];
+
+export const READING_ORDER = [
+  ...COMPONENT_GROUPS.flatMap((group) => group.items),
   ...templates,
 ];
 

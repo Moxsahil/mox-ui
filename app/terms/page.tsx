@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import GooeyNavbar from "@/components/GooeyNavbar";
+import PillNavbar from "@/components/PillNavbar";
 import LegalPage from "@/components/legal/LegalPage";
 import { fetchStarCount } from "@/lib/github";
 import { LEGAL_UPDATED, TERMS_SECTIONS } from "@/lib/legal";
@@ -29,7 +29,7 @@ export default async function TermsOfServicePage() {
 
   return (
     <>
-      <GooeyNavbar stars={stars} />
+      <PillNavbar stars={stars} />
 
       <LegalPage
         title="Terms of Service"

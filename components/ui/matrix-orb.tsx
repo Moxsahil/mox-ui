@@ -94,7 +94,7 @@ const MatrixOrb = ({
   state = "idle",
   level,
   size = 240,
-  color = "#F75001",
+  color = "#1A73F2",
   dots = 11,
   labels,
   className,

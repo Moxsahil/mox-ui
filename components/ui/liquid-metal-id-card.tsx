@@ -19,6 +19,52 @@ export interface LiquidMetalIDCardProps extends React.ComponentPropsWithoutRef<"
   expiry?: string;
 }
 
+const SURFACE = {
+  front: {
+    light:
+      "linear-gradient(135deg, #d4d4d8 0%, #f4f4f5 25%, #c9c9ce 50%, #ececee 75%, #d4d4d8 100%)",
+    dark: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0f0f0f 50%, #1f1f1f 75%, #0a0a0a 100%)",
+  },
+  back: {
+    light:
+      "linear-gradient(225deg, #e4e4e7 0%, #f4f4f5 30%, #d4d4d8 60%, #e9e9eb 100%)",
+    dark: "linear-gradient(225deg, #0f0f0f 0%, #1a1a1a 30%, #0a0a0a 60%, #151515 100%)",
+  },
+  edge: {
+    light:
+      "linear-gradient(135deg, rgba(0,0,0,0.14) 0%, transparent 50%, rgba(0,0,0,0.08) 100%)",
+    dark: "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%)",
+  },
+};
+
+const RIM =
+  "border border-black/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_1px_rgba(0,0,0,0.08)] dark:border-white/[0.08] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),inset_0_-1px_1px_rgba(0,0,0,0.3)]";
+
+function Surface({
+  light,
+  dark,
+  className,
+  style,
+}: {
+  light: string;
+  dark: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <>
+      <div
+        className={cn("absolute inset-0 dark:hidden", className)}
+        style={{ ...style, background: light }}
+      />
+      <div
+        className={cn("absolute inset-0 hidden dark:block", className)}
+        style={{ ...style, background: dark }}
+      />
+    </>
+  );
+}
+
 function CardChip() {
   const gradientId = useId();
 
@@ -216,7 +262,7 @@ export function LiquidMetalIDCard({
       aria-pressed={isFlipped}
       {...props}
       className={cn(
-        "relative w-full max-w-[420px] cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-neutral-400",
+        "relative w-full max-w-[420px] cursor-pointer rounded-2xl [--card-shine:rgba(255,255,255,0.55)] focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-neutral-400 dark:[--card-shine:rgba(255,255,255,0.08)]",
         className,
       )}
       style={{ perspective: "1500px", containerType: "inline-size", ...style }}
@@ -275,7 +321,7 @@ export function LiquidMetalIDCard({
               times: [0, 0.5, 1],
             },
           }}
-          className="relative h-[260px] w-full rounded-2xl"
+          className="relative h-[260px] w-full rounded-2xl shadow-[0_24px_48px_-20px_rgba(0,0,0,0.35)] dark:shadow-none"
         >
           <motion.div
             aria-hidden={isFlipped}
@@ -290,14 +336,7 @@ export function LiquidMetalIDCard({
               ease: "easeInOut",
             }}
           >
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `
-                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #0f0f0f 50%, #1f1f1f 75%, #0a0a0a 100%)
-              `,
-              }}
-            />
+            <Surface {...SURFACE.front} />
             <motion.div
               className="absolute inset-0"
               animate={{
@@ -382,42 +421,34 @@ export function LiquidMetalIDCard({
                 }}
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent 0%, transparent 40%, rgba(255,255,255,0.08) 50%, transparent 60%, transparent 100%)",
+                    "linear-gradient(90deg, transparent 0%, transparent 40%, var(--card-shine) 50%, transparent 60%, transparent 100%)",
                   transform: "skewX(-25deg)",
                 }}
               />
             </motion.div>
-            <div
-              className="absolute inset-0 rounded-2xl"
+            <Surface
+              {...SURFACE.edge}
+              className="rounded-2xl"
               style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.05) 100%)",
                 padding: "1px",
                 mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
                 maskComposite: "exclude",
               }}
             />
-            <div
-              className="absolute inset-[1px] rounded-2xl"
-              style={{
-                border: "1px solid rgba(255,255,255,0.08)",
-                boxShadow:
-                  "inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 1px rgba(0,0,0,0.3)",
-              }}
-            />
+            <div className={cn("absolute inset-[1px] rounded-2xl", RIM)} />
             <div
               className="relative h-full p-[clamp(1rem,7.62cqw,2rem)] flex flex-col justify-between"
               style={{ transform: "translateZ(30px)" }}
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="shrink-0 space-y-4">
-                  <p className="text-xs font-mono tracking-[0.3em] text-neutral-200">
+                  <p className="text-xs font-mono tracking-[0.3em] text-neutral-800 dark:text-neutral-200">
                     HDFC BANK
                   </p>
                   <div className="flex items-center gap-3">
                     <CardChip />
                     <Nfc
-                      className="h-6 w-6 text-neutral-300"
+                      className="h-6 w-6 text-neutral-500 dark:text-neutral-300"
                       strokeWidth={1.5}
                       role="img"
                       aria-label="Contactless payment"
@@ -426,15 +457,15 @@ export function LiquidMetalIDCard({
                 </div>
                 <div className="flex min-w-0 items-center gap-2">
                   <motion.div
-                    className="w-2 h-2 shrink-0 rounded-full bg-white"
+                    className="w-2 h-2 shrink-0 rounded-full bg-current text-neutral-800 dark:text-white"
                     animate={{
                       opacity: reduced ? 0.5 : [0.5, 1, 0.5],
                       boxShadow: reduced
-                        ? "0 0 4px rgba(255,255,255,0.5)"
+                        ? "0 0 4px currentColor"
                         : [
-                            "0 0 4px rgba(255,255,255,0.5)",
-                            "0 0 8px rgba(255,255,255,0.8)",
-                            "0 0 4px rgba(255,255,255,0.5)",
+                            "0 0 4px currentColor",
+                            "0 0 8px currentColor",
+                            "0 0 4px currentColor",
                           ],
                     }}
                     transition={{
@@ -444,7 +475,7 @@ export function LiquidMetalIDCard({
                     }}
                   />
                   <span
-                    className="truncate text-[10px] font-mono tracking-[0.3em] text-neutral-400 uppercase"
+                    className="truncate text-[10px] font-mono tracking-[0.3em] text-neutral-500 uppercase dark:text-neutral-400"
                     title={cardType}
                   >
                     {cardType}
@@ -453,33 +484,24 @@ export function LiquidMetalIDCard({
               </div>
               <div className="space-y-2">
                 <motion.h2
-                  className="truncate text-[clamp(0.8125rem,5.715cqw,1.5rem)] font-mono font-light leading-8 tracking-wider text-white"
+                  className="truncate text-[clamp(0.8125rem,5.715cqw,1.5rem)] font-mono font-light leading-8 tracking-wider text-neutral-900 [text-shadow:0_1px_0_rgba(255,255,255,0.7)] dark:text-white dark:[text-shadow:0_2px_10px_rgba(255,255,255,0.1)]"
                   title={cardNumber}
-                  style={{
-                    textShadow: "0 2px 10px rgba(255,255,255,0.1)",
-                  }}
                 >
                   {cardNumber}
                 </motion.h2>
                 <p
-                  className="truncate text-sm tracking-[0.25em] uppercase"
+                  className="truncate bg-linear-to-r from-neutral-500 via-neutral-900 to-neutral-500 bg-clip-text text-sm tracking-[0.25em] text-transparent uppercase dark:from-[#888] dark:via-white dark:to-[#888]"
                   title={name}
-                  style={{
-                    background:
-                      "linear-gradient(90deg, #888 0%, #fff 50%, #888 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
                 >
                   {name}
                 </p>
               </div>
               <div className="flex items-end justify-between">
                 <div className="space-y-1">
-                  <p className="text-[9px] text-neutral-400 uppercase tracking-[0.2em] font-mono">
+                  <p className="text-[9px] text-neutral-500 uppercase tracking-[0.2em] font-mono dark:text-neutral-400">
                     Valid thru
                   </p>
-                  <p className="font-mono text-xs tracking-wider text-neutral-300">
+                  <p className="font-mono text-xs tracking-wider text-neutral-700 dark:text-neutral-300">
                     {expiry}
                   </p>
                 </div>
@@ -495,7 +517,7 @@ export function LiquidMetalIDCard({
                     viewBox="0 0 24 24"
                     role="img"
                     aria-label="Visa"
-                    className="h-auto w-14 fill-white"
+                    className="h-auto w-14 fill-[#1a1f71] dark:fill-white"
                   >
                     <path d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z" />
                   </svg>
@@ -529,14 +551,7 @@ export function LiquidMetalIDCard({
               ease: "easeInOut",
             }}
           >
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `
-                linear-gradient(225deg, #0f0f0f 0%, #1a1a1a 30%, #0a0a0a 60%, #151515 100%)
-              `,
-              }}
-            />
+            <Surface {...SURFACE.back} />
             <motion.div
               className="absolute inset-0"
               animate={{
@@ -557,47 +572,40 @@ export function LiquidMetalIDCard({
                 backgroundSize: "200% 200%",
               }}
             />
-            <div
-              className="absolute inset-[1px] rounded-2xl"
-              style={{
-                border: "1px solid rgba(255,255,255,0.08)",
-                boxShadow:
-                  "inset 0 1px 1px rgba(255,255,255,0.1), inset 0 -1px 1px rgba(0,0,0,0.3)",
-              }}
-            />
+            <div className={cn("absolute inset-[1px] rounded-2xl", RIM)} />
             <div className="relative h-full p-[clamp(1rem,7.62cqw,2rem)] flex flex-col justify-between">
               <div className="flex items-center justify-between gap-2">
-                <span className="shrink-0 text-[10px] font-mono tracking-[0.2em] text-neutral-300">
+                <span className="shrink-0 text-[10px] font-mono tracking-[0.2em] text-neutral-700 dark:text-neutral-300">
                   HDFC BANK
                 </span>
                 <span
-                  className="truncate text-[9px] font-mono tracking-[0.3em] text-neutral-400 uppercase"
+                  className="truncate text-[9px] font-mono tracking-[0.3em] text-neutral-500 uppercase dark:text-neutral-400"
                   title={cardType}
                 >
                   {cardType}
                 </span>
               </div>
               <div
-                className="-mx-[clamp(1rem,7.62cqw,2rem)] h-10 shrink-0 bg-black/80 border-y border-white/5"
+                className="-mx-[clamp(1rem,7.62cqw,2rem)] h-10 shrink-0 border-y border-black/10 bg-neutral-900 dark:border-white/5 dark:bg-black/80"
                 aria-hidden="true"
               />
               <div className="flex items-center gap-4">
                 <div
-                  className="min-w-0 flex-1 truncate rounded-sm bg-neutral-300/10 px-4 py-3 text-sm italic text-neutral-300"
+                  className="min-w-0 flex-1 truncate rounded-sm bg-white/70 px-4 py-3 text-sm italic text-neutral-700 dark:bg-neutral-300/10 dark:text-neutral-300"
                   title={name}
                 >
                   {name}
                 </div>
                 <div className="space-y-1 text-right">
-                  <p className="text-[9px] font-mono tracking-widest text-neutral-400">
+                  <p className="text-[9px] font-mono tracking-widest text-neutral-500 dark:text-neutral-400">
                     CVV
                   </p>
-                  <p className="font-mono text-sm tracking-widest text-neutral-200">
+                  <p className="font-mono text-sm tracking-widest text-neutral-800 dark:text-neutral-200">
                     •••
                   </p>
                 </div>
               </div>
-              <p className="text-[9px] leading-relaxed text-neutral-400">
+              <p className="text-[9px] leading-relaxed text-neutral-500 dark:text-neutral-400">
                 Designed for your everyday. Keep your card details secure.
               </p>
               <div className="flex items-center justify-between gap-2 text-[9px] font-mono tracking-wider text-neutral-500">

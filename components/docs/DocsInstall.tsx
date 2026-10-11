@@ -2,7 +2,12 @@
 
 import { useEffect, useId, useState } from "react";
 import CopyButton from "@/components/CopyButton";
-import { LOGOS } from "@/components/logos";
+import {
+  BunLogo,
+  NpmLogo,
+  PnpmLogo,
+  YarnLogo,
+} from "@/components/home/StackLogos";
 import {
   installCommand,
   PACKAGE_MANAGERS,
@@ -37,9 +42,16 @@ const METHOD_OPTIONS = [
   { id: "manual", label: "Manual" },
 ] as const;
 
+const PM_LOGOS: Record<PackageManager, typeof NpmLogo> = {
+  npm: NpmLogo,
+  pnpm: PnpmLogo,
+  yarn: YarnLogo,
+  bun: BunLogo,
+};
+
 const PACKAGE_OPTIONS = PACKAGE_MANAGERS.map((id) => {
-  const Logo = LOGOS[id];
-  return { id, label: id, icon: <Logo className="size-3" /> };
+  const Logo = PM_LOGOS[id];
+  return { id, label: id, icon: <Logo className="size-3.5" /> };
 });
 
 type Method = (typeof METHOD_OPTIONS)[number]["id"];
@@ -175,7 +187,7 @@ export default function DocsInstall({
             Loading source…
           </div>
         ) : (
-          <DocsCode code={code} filename={sourcePath(item)} />
+          <DocsCode code={code} filename={sourcePath(item)} peek={14} />
         ),
     },
     {

@@ -49,7 +49,7 @@ const SparkleIcon = ({ className }: { className?: string }) => (
 
 const pill = "rounded-full border-apple bg-neutral-900";
 
-export default function GooeyNavbar({ stars }: { stars?: number | null }) {
+export default function PillNavbar({ stars }: { stars?: number | null }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [starHovered, setStarHovered] = useState(false);

@@ -1,10 +1,6 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
-import ComponentsBrowser, {
-  BrowserShell,
-} from "@/components/browse/ComponentsBrowser";
-import { components } from "@/lib/components";
+import DocsGallery from "@/components/docs/DocsGallery";
+import DocsShell from "@/components/docs/DocsShell";
 import { fetchStarCount } from "@/lib/github";
 import { SITE_KEYWORDS, componentsJsonLd } from "@/lib/seo";
 
@@ -18,17 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ComponentsIndexPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ view?: string | string[] }>;
-}) {
-  const { view } = await searchParams;
-
-  if (view === undefined) {
-    redirect(components[0].href);
-  }
-
+export default async function ComponentsIndexPage() {
   const stars = await fetchStarCount();
 
   return (
@@ -37,9 +23,9 @@ export default async function ComponentsIndexPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(componentsJsonLd()) }}
       />
-      <Suspense fallback={<BrowserShell view="overview" stars={stars} />}>
-        <ComponentsBrowser stars={stars} />
-      </Suspense>
+      <DocsShell stars={stars} wide>
+        <DocsGallery kind="components" />
+      </DocsShell>
     </>
   );
 }

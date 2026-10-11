@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import GooeyNavbar from "@/components/GooeyNavbar";
+import PillNavbar from "@/components/PillNavbar";
 import HeroIntro from "@/components/HeroIntro";
 import TestimonialWall from "@/components/testimonials/TestimonialWall";
 import { fetchStarCount } from "@/lib/github";
@@ -52,7 +52,7 @@ export default async function TestimonialsPage() {
           className="relative flex min-h-[min(78svh,50rem)] w-full items-center justify-center overflow-hidden rounded-[45px] border border-black/[0.04] bg-[#F5F5F7] dark:border-transparent dark:border-apple dark:bg-[#121212]"
           style={{ cornerShape: "squircle" } as React.CSSProperties}
         >
-          <GooeyNavbar stars={stars} />
+          <PillNavbar stars={stars} />
 
           <MoxMark className="pointer-events-none absolute left-1/2 top-[68%] size-[860px] max-w-none -translate-x-1/2 -translate-y-1/2 text-black opacity-[0.05] dark:text-white dark:opacity-[0.07]" />
           <div className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(120%_75%_at_50%_-5%,rgba(255,255,255,0.07),transparent_60%)] dark:block" />

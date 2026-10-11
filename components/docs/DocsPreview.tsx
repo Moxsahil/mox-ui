@@ -12,6 +12,8 @@ import {
   fetchSource,
   SOURCE_ERROR,
 } from "@/components/Description/fetchSource";
+import ColorSwatches from "@/components/preview/ColorSwatches";
+import { PreviewStageProvider } from "@/components/preview/PreviewPanel";
 import { cn } from "@/lib/utils";
 import DocsCode from "./DocsCode";
 import DocsTabs from "./DocsTabs";
@@ -33,6 +35,7 @@ export default function DocsPreview({
   scrollable = false,
 }: DocsPreviewProps) {
   const stageRef = useRef<HTMLDivElement>(null);
+  const [slot, setSlot] = useState<HTMLDivElement | null>(null);
   const [tab, setTab] = useState<"preview" | "code">("preview");
   const [source, setSource] = useState<string | null>(null);
   const [run, setRun] = useState(0);
@@ -147,7 +150,8 @@ export default function DocsPreview({
         <div
           ref={stageRef}
           className={cn(
-            "relative isolate flex w-full min-w-0 bg-home-bg",
+            // a panel in the slot claims the bottom of the stage, so it never covers the component
+            "relative isolate flex w-full min-w-0 bg-home-bg has-[[data-preview-panel]]:pb-16",
             fullscreen
               ? "h-svh"
               : scrollable
@@ -155,17 +159,27 @@ export default function DocsPreview({
                 : "min-h-[280px]",
           )}
         >
-          <div
-            key={run}
-            className={cn(
-              "w-full min-w-0",
-              constrained
-                ? "h-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain"
-                : "flex items-center justify-center p-4 sm:p-6 lg:p-8",
-            )}
-          >
-            {children}
-          </div>
+          <PreviewStageProvider value={{ slot, stage: stageRef }}>
+            <div
+              key={run}
+              className={cn(
+                "w-full min-w-0",
+                constrained
+                  ? "h-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain"
+                  : "flex items-center justify-center p-4 sm:p-6 lg:p-8",
+              )}
+            >
+              {children}
+            </div>
+
+            <div
+              key={`panel-${run}`}
+              ref={setSlot}
+              className="pointer-events-none absolute inset-x-0 bottom-4 z-10 flex justify-center *:pointer-events-auto"
+            >
+              <ColorSwatches />
+            </div>
+          </PreviewStageProvider>
 
           {/* Fullscreen exit button */}
           {fullscreen && (

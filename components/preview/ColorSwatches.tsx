@@ -1,27 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { motion } from "motion/react";
-import { GripVertical } from "lucide-react";
-import { Squircle } from "@squircle-js/react";
 import { activeComponent, cleanDefault, swatchProp } from "@/lib/components";
 import { usePreviewControl } from "./PreviewControls";
-
-const SQUIRCLE = { cornerRadius: 16, cornerSmoothing: 5 } as const;
-
-type ColorSwatchesProps = {
-  className?: string;
-  showLabel?: boolean;
-  draggable?: boolean;
-  constraintsRef?: React.RefObject<HTMLElement | null>;
-};
+import PreviewPanel from "./PreviewPanel";
 
 export default function ColorSwatches({
-  className = "",
   showLabel = false,
-  draggable = false,
-  constraintsRef,
-}: ColorSwatchesProps) {
+}: {
+  showLabel?: boolean;
+}) {
   const pathname = usePathname();
   const prop = swatchProp(activeComponent(pathname));
 
@@ -33,18 +21,8 @@ export default function ColorSwatches({
 
   if (!prop || !prop.optionColors || options.length === 0) return null;
 
-  const handle = draggable && (
-    <span
-      className="-ml-1 cursor-grab text-foreground/30 transition-colors hover:text-foreground/60 active:cursor-grabbing"
-      aria-hidden
-    >
-      <GripVertical className="h-5 w-5" />
-    </span>
-  );
-
-  const swatches = (
-    <>
-      {handle}
+  return (
+    <PreviewPanel inline className="gap-2.5 rounded-2xl px-3 py-2.5">
       {showLabel && (
         <span className="mr-0.5 text-xs font-medium text-foreground/55">
           {prop.name}
@@ -69,32 +47,6 @@ export default function ColorSwatches({
           />
         );
       })}
-    </>
-  );
-
-  if (draggable) {
-    return (
-      <Squircle asChild {...SQUIRCLE}>
-        <motion.div
-          drag
-          dragConstraints={constraintsRef}
-          dragMomentum={false}
-          dragElastic={0}
-          whileDrag={{ scale: 1.03 }}
-          className={`border-apple flex items-center gap-2.5 ${className}`}
-        >
-          {swatches}
-        </motion.div>
-      </Squircle>
-    );
-  }
-
-  return (
-    <Squircle
-      {...SQUIRCLE}
-      className={`border-apple flex items-center gap-2.5 ${className}`}
-    >
-      {swatches}
-    </Squircle>
+    </PreviewPanel>
   );
 }

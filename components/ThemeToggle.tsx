@@ -1,29 +1,16 @@
 "use client";
 
+import { useRef } from "react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
-const ContrastIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-    <path d="M12 3l0 18" />
-    <path d="M12 9l4.65 -4.65" />
-    <path d="M12 14.3l7.37 -7.37" />
-    <path d="M12 19.6l8.85 -8.85" />
-  </svg>
-);
+const SHOWN = { opacity: 1, scale: 1, rotate: "0deg" };
+const hidden = (turn: number) => ({
+  opacity: 0,
+  scale: 0,
+  rotate: `${turn}deg`,
+});
 
 export default function ThemeToggle({
   className = "",
@@ -31,18 +18,47 @@ export default function ThemeToggle({
   className?: string;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
+  const sunRef = useRef<SVGSVGElement>(null);
+  const moonRef = useRef<SVGSVGElement>(null);
+
+  const toggle = () => {
+    const dark = resolvedTheme !== "dark";
+    setTheme(dark ? "dark" : "light");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const [incoming, outgoing] = dark
+      ? [moonRef.current, sunRef.current]
+      : [sunRef.current, moonRef.current];
+    // web animations, not css transitions: disableTransitionOnChange freezes transitions during the switch
+    incoming?.animate([hidden(90), SHOWN], {
+      duration: 500,
+      easing: "cubic-bezier(0.3, 1.4, 0.5, 1)",
+    });
+    outgoing?.animate([SHOWN, hidden(-90)], {
+      duration: 250,
+      easing: "cubic-bezier(0.4, 0, 1, 1)",
+    });
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      onClick={toggle}
       aria-label="Toggle theme"
       className={cn(
-        "cursor-pointer rounded-lg bg-secondary p-2 text-foreground/80 transition-colors hover:text-foreground",
+        "relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-secondary p-2 text-foreground/80 transition-colors hover:text-foreground",
         className,
       )}
     >
-      <ContrastIcon className="h-5 w-5" />
+      <Sun
+        ref={sunRef}
+        aria-hidden="true"
+        className="size-5 dark:scale-0 dark:opacity-0"
+      />
+      <Moon
+        ref={moonRef}
+        aria-hidden="true"
+        className="absolute inset-0 m-auto size-5 scale-0 opacity-0 dark:scale-100 dark:opacity-100"
+      />
     </button>
   );
 }
