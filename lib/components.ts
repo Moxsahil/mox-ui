@@ -604,7 +604,7 @@ export function Demo() {
     { label: "Code block", href: "/codeblock" },
   ]
 
-  const navigation = [{ label: "Gooey nav", href: "/gooeynav" }]
+  const navigation = [{ label: "Liquid tab bar", href: "/liquidtabbar" }]
 
   // one HookSidebar per group, stacked
   export function Demo() {
@@ -690,7 +690,7 @@ export function Demo() {
     category: "inputs",
     registry: "duration-picker",
     description:
-      "A gooey, spring-animated picker for entering a duration in hours and minutes.",
+      "A spring-animated picker for entering a duration in hours and minutes.",
     source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/duration-picker.tsx`,
     preview: "/componentdemos/durationpicker.mp4",
     featured: true,
@@ -1778,15 +1778,15 @@ export function Demo() {
 // Pass progress when your API reports it: <GridReveal src={src} progress={job.progress} />`,
   },
   {
-    name: "Gooey nav",
-    href: "/components/gooeynav",
+    name: "Liquid tab bar",
+    href: "/components/liquidtabbar",
     category: "navigation",
     isNew: false,
-    registry: "gooey-nav",
+    registry: "liquid-tab-bar",
     description:
-      "A gooey navigation bar that separates the selected item from the group.",
-    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/gooey-nav.tsx`,
-    preview: "/componentdemos/gooeynav.mp4",
+      "A liquid glass tab bar with a stretchy selection lens and a detached search button.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/liquid-tab-bar.tsx`,
+    preview: "/componentdemos/liquidtabbar.webm",
     dependencies: [
       {
         name: "motion",
@@ -1794,32 +1794,32 @@ export function Demo() {
       },
     ],
     interaction:
-      "Click an item to lift it out of the bar; the rest close back into one piece behind it.",
+      "Click a tab and the glass lens slides to it, stretching on the way like liquid. The search button beside the bar opens a search field and turns into a close button; Escape closes it too.",
     props: [
       {
         name: "items",
         type: "(string | { label: string; href?: string; icon?: ReactNode })[]",
         required: true,
         description:
-          "Nav entries. A string is a button, an object with href is a link, and icon renders before the label.",
+          "Tabs. An item with an icon shows only the icon and uses its label as the accessible name; an item with href is a link.",
       },
       {
         name: "value",
         type: "number",
         description:
-          "Index of the selected item. Pass it to control the nav yourself; leave it out and the nav follows the url when the items have hrefs, and its own state otherwise.",
+          "Index of the selected tab. Pass it to control the bar yourself; leave it out and the bar follows the url when the items have hrefs, and its own state otherwise.",
       },
       {
         name: "defaultValue",
         type: "number",
         default: "0",
         description:
-          "Index the nav starts on when it is uncontrolled. Ignored once value is passed, and ignored when an item href matches the current url.",
+          "Index the bar starts on when it is uncontrolled. Ignored once value is passed, and ignored when an item href matches the current url.",
       },
       {
         name: "onChange",
         type: "(index: number) => void",
-        description: "Fires with the index of the item that was clicked.",
+        description: "Fires with the index of the tab that was clicked.",
       },
       {
         name: "size",
@@ -1827,63 +1827,57 @@ export function Demo() {
         default: '"md"',
         options: ["xs", "sm", "md", "lg"],
         description:
-          "Scale of the bar. Sets the label padding, text size and icon size, and picks the matching separation and radius so the shape stays in proportion. Use xs on phones, where it fits a 360px screen.",
+          "Scale of the bar. Sets the tab padding and icon size, and the search button follows it.",
       },
       {
         name: "activeColor",
         type: "string",
-        default: '"#FC4C01"',
-        description:
-          "Fill of the selected tile. The unselected bar follows the theme instead, light grey on light and near black on dark.",
+        default: '"#0A84FF"',
+        description: "Color of the selected tab's icon or label.",
       },
       {
-        name: "activeLabelColor",
+        name: "onSearch",
+        type: "(query: string) => void",
+        description:
+          "Shows the detached search button. Fires with the query as it is typed, and with an empty string when the search closes. Leave it out to hide search.",
+      },
+      {
+        name: "searchLabel",
         type: "string",
-        default: '"#ffffff"',
+        default: '"Search"',
         description:
-          "Label color of the selected item. Set it when a light activeColor leaves white text unreadable.",
+          "Placeholder and accessible name of the search field and its button.",
       },
       {
-        name: "separation",
-        type: "number",
-        description:
-          "Gap in pixels that opens on each side of the selected item, which is what pushes the rest of the bar aside. Defaults to the size: 14 (xs), 16 (sm), 20 (md), 24 (lg).",
-      },
-      {
-        name: "radius",
-        type: "number",
-        description:
-          "Corner radius of the tiles in pixels. Only the outer corners of the bar and the corners along an open gap use it; a closed seam sits at 0 so the tiles read as one shape. Defaults to the size: 8 (xs), 10 (sm), 12 (md), 14 (lg).",
+        name: "closeLabel",
+        type: "string",
+        default: '"Close search"',
+        description: "Accessible name of the button while search is open.",
       },
       {
         name: "className",
         type: "string",
         description:
-          'Extra classes merged onto the root element (data-slot="gooey-nav"). The bar sizes to its content and never wraps, so add an overflow container here if it can outgrow its parent.',
+          'Extra classes merged onto the root element (data-slot="liquid-tab-bar"). The bar sizes to its content and never wraps.',
       },
     ],
     usage: `"use client"
 
-import { GooeyNav } from "@/components/ui/gooey-nav"
+import { LiquidTabBar } from "@/components/ui/liquid-tab-bar"
 
 export function Demo() {
   return (
     // hrefs make it track the url on its own, no value needed
-    <GooeyNav
+    <LiquidTabBar
       items={[
         { label: "Home", href: "/", icon: <HouseIcon /> },
-        { label: "Changelog", href: "/changelog" },
-        { label: "About", href: "/about" },
+        { label: "Changelog", href: "/changelog", icon: <BookIcon /> },
+        { label: "About", href: "/about", icon: <InfoIcon /> },
       ]}
+      onSearch={(query) => setQuery(query)}
     />
   )
-}
-
-// strings render buttons instead, for a segmented control:
-// <GooeyNav items={["Day", "Week", "Month"]} onChange={setRange} />
-
-// size is a single value, so step it down yourself on small screens:
-// <GooeyNav items={items} size={useIsMobile() ? "xs" : "md"} />`,
+}`,
   },
   {
     name: "Delete button",
@@ -1937,7 +1931,7 @@ export function Demo() {
     description:
       "A number that counts to its new value on a wheel of digits, like an odometer.",
     source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/animated-counter.tsx`,
-    preview: "/componentdemos/animatednumbers.mp4",
+    preview: "/componentdemos/animatedcounter.webm",
     dependencies: [
       {
         name: "motion",
@@ -2037,7 +2031,7 @@ export function Revenue({ total }: { total: number }) {
     description:
       "A dot-matrix orb that animates through idle, listening and thinking states.",
     source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/matrix-orb.tsx`,
-    preview: "/componentdemos/matrixorb.mp4",
+    preview: "/componentdemos/matrixorb.webm",
     interaction:
       "Use the controls to switch the orb between its idle, listening and thinking states.",
     props: [
@@ -2063,7 +2057,7 @@ export function Revenue({ total }: { total: number }) {
       {
         name: "color",
         type: "string",
-        default: '"#F75001"',
+        default: '"#1A73F2"',
         description: "Any CSS color for the dots.",
       },
       {
@@ -2117,13 +2111,17 @@ const PM_EXECUTORS: Record<PackageManager, string> = {
 
 export const PACKAGE_MANAGERS = Object.keys(PM_EXECUTORS) as PackageManager[];
 
+export function shadcnCommand(args: string, pm: PackageManager = "npm") {
+  // @latest matters: npx otherwise picks a stale local shadcn, and github registries need 4.16+
+  return `${PM_EXECUTORS[pm]} shadcn@latest ${args}`;
+}
+
 export function installCommand(
   item: Pick<ComponentItem, "registry">,
   pm: PackageManager = "npm",
 ): string | null {
   if (!item.registry) return null;
-  // @latest matters: npx otherwise picks a stale local shadcn, and github registries need 4.16+
-  return `${PM_EXECUTORS[pm]} shadcn@latest add ${REGISTRY_REPO}/${item.registry}`;
+  return shadcnCommand(`add ${REGISTRY_REPO}/${item.registry}`, pm);
 }
 
 export type ComponentSection = {

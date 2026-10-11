@@ -37,6 +37,15 @@
       "scope": "components/docs",
       "decision": "Match the supplied Forge UI component documentation reference: full-width header, flat left navigation, centered preview and source tabs, numbered installation steps, and a right page index. Use Mox UI branding and existing catalog data.",
       "reference": "https://forgeui.in/components/animated-form"
+    },
+    {
+      "scope": "components/docs/DocsToc.tsx",
+      "decision": "Match the Vengeance UI page index with an uppercase label, a curved vertical track on component and introduction pages, and a bright marker that follows scroll progress. Keep the index fixed beside the article. Include an Overview anchor on component pages and respect reduced motion.",
+      "reference": "https://www.vengenceui.com/components/my-animated-button"
+    },
+    {
+      "scope": "components/docs/DocsInstall.tsx",
+      "decision": "Collapse long manual installation source code behind a blurred bottom fade and a centered Show more button. Expand to the full code with a Show less control, preserving full-source copying and keyboard focus."
     }
   ],
   "generatedAt": "2026-10-08T17:31:29.258Z"

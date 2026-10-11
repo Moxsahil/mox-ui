@@ -1,7 +1,7 @@
 "use client";
 
-import { useId, useState } from "react";
-import { Terminal } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { ChevronDown, Terminal } from "lucide-react";
 import { Highlight, type PrismTheme } from "prism-react-renderer";
 import CopyButton from "@/components/CopyButton";
 import { cn } from "@/lib/utils";
@@ -60,6 +60,7 @@ export default function DocsCode({
   className?: string;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const id = useId();
   const lines = code.replace(/\n+$/, "").split("\n");
   const total = lines.length;
@@ -87,72 +88,95 @@ export default function DocsCode({
         />
       </div>
 
-      <div
-        id={id}
-        role="region"
-        aria-label={filename ? `${filename} source code` : "Source code"}
-        tabIndex={0}
-        className={cn(
-          "relative overflow-x-auto py-4 font-mono text-[13px] leading-[1.65] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-home-fg/50",
-          expanded && "max-h-160 overflow-y-auto",
-        )}
-      >
-        <Highlight code={shown} language={language} theme={THEME}>
-          {({ tokens, getLineProps, getTokenProps }) => (
-            <pre className="min-w-max">
-              <code>
-                {tokens.map((line, index) => {
-                  const lineProps = getLineProps({ line });
-                  return (
-                    <span
-                      key={index}
-                      {...lineProps}
-                      className={cn(lineProps.className, "flex pr-4")}
-                    >
-                      {lineNumbers && (
-                        <span
-                          aria-hidden="true"
-                          className="w-12 shrink-0 select-none pr-4 text-right text-home-muted"
-                        >
-                          {index + 1}
+      <div className="relative">
+        <div
+          id={id}
+          role="region"
+          aria-label={filename ? `${filename} source code` : "Source code"}
+          tabIndex={0}
+          className="overflow-x-auto py-4 font-mono text-[13px] leading-[1.65] outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-home-fg/50"
+        >
+          <Highlight code={shown} language={language} theme={THEME}>
+            {({ tokens, getLineProps, getTokenProps }) => (
+              <pre className="min-w-max">
+                <code>
+                  {tokens.map((line, index) => {
+                    const lineProps = getLineProps({ line });
+                    return (
+                      <span
+                        key={index}
+                        {...lineProps}
+                        className={cn(lineProps.className, "flex pr-4")}
+                      >
+                        {lineNumbers && (
+                          <span
+                            aria-hidden="true"
+                            className="w-12 shrink-0 select-none pr-4 text-right text-home-muted"
+                          >
+                            {index + 1}
+                          </span>
+                        )}
+                        <span className={cn(!lineNumbers && "pl-4")}>
+                          {line.map((token, key) => (
+                            <span key={key} {...getTokenProps({ token })} />
+                          ))}
                         </span>
-                      )}
-                      <span className={cn(!lineNumbers && "pl-4")}>
-                        {line.map((token, key) => (
-                          <span key={key} {...getTokenProps({ token })} />
-                        ))}
                       </span>
-                    </span>
-                  );
-                })}
-              </code>
-            </pre>
-          )}
-        </Highlight>
+                    );
+                  })}
+                </code>
+              </pre>
+            )}
+          </Highlight>
+        </div>
         {collapsed && (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-linear-to-b from-transparent to-home-bg"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-b from-home-bg/0 via-home-bg/70 to-home-bg backdrop-blur-[3px] [mask-image:linear-gradient(to_bottom,transparent,black_50%)]"
           />
         )}
-      </div>
 
-      {collapsible && (
-        <div className="flex flex-wrap items-center justify-between gap-2.5 border-t border-home-line px-4 py-2">
-          <span className="text-xs text-home-muted">
-            {note ?? `${total} lines`}
-          </span>
-          <button
-            type="button"
-            onClick={() => setExpanded((value) => !value)}
-            aria-expanded={expanded}
-            aria-controls={id}
-            className="h-7 cursor-pointer rounded-md border border-home-line-strong px-2.5 text-xs text-home-fg transition-colors duration-150 hover:bg-home-raised focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg motion-reduce:transition-none"
+        {collapsible && (
+          <div
+            className={cn(
+              "flex flex-col items-center justify-center gap-2 px-4 py-4",
+              collapsed
+                ? "absolute inset-x-0 bottom-0"
+                : "border-t border-home-line",
+            )}
           >
-            {expanded ? "Collapse" : `Show all ${total} lines`}
-          </button>
-        </div>
-      )}
+            {note && <span className="text-xs text-home-muted">{note}</span>}
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => {
+                setExpanded((value) => !value);
+                if (expanded) {
+                  requestAnimationFrame(() => {
+                    const button = toggleRef.current;
+                    if (!button) return;
+                    const bounds = button.getBoundingClientRect();
+                    if (bounds.top < 96 || bounds.bottom > window.innerHeight)
+                      button.scrollIntoView({
+                        block: "center",
+                        behavior: "instant",
+                      });
+                  });
+                }
+              }}
+              aria-expanded={expanded}
+              aria-controls={id}
+              className="liquid-glass inline-flex h-9 cursor-pointer scroll-mt-24 items-center justify-center gap-1.5 rounded-full px-4.5 text-xs font-semibold text-home-fg transition-[translate,scale] duration-200 ease-[cubic-bezier(0.3,1.4,0.5,1)] hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg active:scale-[0.96] motion-reduce:transition-none"
+            >
+              {expanded ? "Collapse" : "Expand"}
+              <ChevronDown
+                aria-hidden="true"
+                className={cn("size-3.5", expanded && "rotate-180")}
+              />
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

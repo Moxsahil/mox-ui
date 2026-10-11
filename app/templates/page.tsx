@@ -1,8 +1,6 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import TemplatesBrowser, {
-  TemplatesShell,
-} from "@/components/browse/TemplatesBrowser";
+import DocsShell from "@/components/docs/DocsShell";
+import DocsGallery from "@/components/docs/DocsGallery";
 import { fetchStarCount } from "@/lib/github";
 import { SITE_KEYWORDS } from "@/lib/seo";
 
@@ -20,9 +18,8 @@ export default async function TemplatesPage() {
   const stars = await fetchStarCount();
 
   return (
-    // the default view prerenders as the fallback, then the ?view= param takes over on the client
-    <Suspense fallback={<TemplatesShell view="all" stars={stars} />}>
-      <TemplatesBrowser stars={stars} />
-    </Suspense>
+    <DocsShell stars={stars} wide>
+      <DocsGallery kind="templates" />
+    </DocsShell>
   );
 }

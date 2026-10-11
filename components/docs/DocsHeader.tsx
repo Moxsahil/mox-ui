@@ -1,15 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 import { MoxMark } from "@/components/MoxLogo";
 import ThemeToggle from "@/components/ThemeToggle";
 import { GithubLogo } from "@/components/logos";
 import { SITE_GITHUB_URL, SITE_NAME } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 const compact = new Intl.NumberFormat("en", { notation: "compact" });
 
 export default function DocsHeader({ stars }: { stars?: number | null }) {
+  const pathname = usePathname();
+  const section = pathname.startsWith("/docs")
+    ? "docs"
+    : pathname.startsWith("/templates")
+      ? "templates"
+      : "components";
+  const navLink = (active: boolean) =>
+    cn("hover:text-home-fg", active && "font-semibold text-home-fg");
   return (
     <header className="sticky top-0 z-50 border-b border-home-line bg-home-bg">
       <a
@@ -31,13 +41,24 @@ export default function DocsHeader({ stars }: { stars?: number | null }) {
           className="hidden items-center gap-6 text-sm text-home-muted sm:flex"
         >
           <Link
+            href="/docs/introduction"
+            aria-current={section === "docs" ? "page" : undefined}
+            className={navLink(section === "docs")}
+          >
+            Docs
+          </Link>
+          <Link
             href="/components"
-            aria-current="true"
-            className="font-semibold text-home-fg"
+            aria-current={section === "components" ? "true" : undefined}
+            className={navLink(section === "components")}
           >
             Components
           </Link>
-          <Link href="/templates" className="hover:text-home-fg">
+          <Link
+            href="/templates"
+            aria-current={section === "templates" ? "page" : undefined}
+            className={navLink(section === "templates")}
+          >
             Templates
           </Link>
         </nav>

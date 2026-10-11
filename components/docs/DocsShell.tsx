@@ -4,20 +4,21 @@ import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
 import {
   activeComponent,
   PANEL_INFO,
   type PackageManager,
 } from "@/lib/components";
 import DocsCode from "./DocsCode";
-import DocsFooter from "./DocsFooter";
 import DocsHeader from "./DocsHeader";
 import DocsInstall from "./DocsInstall";
 import DocsOptions, { optionProps } from "./DocsOptions";
 import DocsPreview from "./DocsPreview";
 import DocsSidebar from "./DocsSidebar";
 import DocsToc, { type TocSection } from "./DocsToc";
-import { neighbours } from "./docs";
+import { GUIDES, neighbours } from "./docs";
 
 const H2 = "text-[22px] font-semibold tracking-tight";
 
@@ -30,35 +31,61 @@ const SCROLLABLE_PREVIEWS = new Set([
 
 export default function DocsShell({
   stars,
+  wide = false,
   children,
 }: {
   stars?: number | null;
+  wide?: boolean;
   children: ReactNode;
 }) {
   const pathname = usePathname();
   const item = activeComponent(pathname);
+  const guide = item ? undefined : GUIDES[pathname];
   const [pm, setPm] = useState<PackageManager>("pnpm");
   const { previous, next } = item ? neighbours(item) : {};
-  const sections: TocSection[] = [{ id: "preview", label: "Preview" }];
+  const sections: TocSection[] = guide
+    ? [...guide.sections]
+    : [
+        { id: "overview", label: "Overview" },
+        { id: "preview", label: "Preview", depth: 1 },
+      ];
   if (item?.registry)
     sections.push({ id: "installation", label: "Installation" });
-  if (item?.usage) sections.push({ id: "docs-usage", label: "Usage" });
+  if (item?.usage)
+    sections.push({ id: "docs-usage", label: "Usage", depth: 1 });
   if (item && optionProps(item).length)
     sections.push({ id: "options", label: "Options" });
   if (item?.props?.length) sections.push({ id: "api", label: "Props" });
 
   return (
-    <div className="home docs-page flex min-h-svh flex-1 flex-col bg-home-bg font-sans text-home-fg">
+    <div
+      className={cn(
+        "home docs-page flex min-h-svh flex-1 flex-col bg-home-bg font-sans text-home-fg",
+        (item || wide) && "no-page-scrollbar",
+      )}
+    >
       <DocsHeader stars={stars} />
-      <div className="flex flex-1 flex-col md:flex-row">
+      {/* overflow-clip, not hidden: a scroll container would break the sticky sidebar and toc */}
+      <div
+        className={cn(
+          "flex flex-1 flex-col md:flex-row",
+          guide &&
+            "relative z-10 overflow-clip rounded-b-3xl bg-home-bg shadow-[0_40px_80px_-30px_rgba(9,9,11,0.35)] ring-1 ring-home-line sm:rounded-b-4xl dark:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]",
+        )}
+      >
         <DocsSidebar current={item} />
         <main
           id="docs-content"
-          className="min-w-0 flex-1 px-5 pb-14 pt-8 sm:px-8 md:pt-10 lg:px-12 2xl:px-20"
+          className={cn(
+            "min-w-0 flex-1",
+            wide
+              ? "px-5 pb-5 pt-6"
+              : "px-5 pb-14 pt-8 sm:px-8 md:pt-10 lg:px-12 2xl:px-20",
+          )}
         >
           {item ? (
             <article key={item.href} className="mx-auto w-full max-w-280">
-              <header className="mb-12">
+              <header id="overview" className="mb-12 scroll-mt-24">
                 <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
                   {item.name}
                 </h1>
@@ -226,9 +253,18 @@ export default function DocsShell({
             children
           )}
         </main>
-        {item && <DocsToc key={item.href} item={item} sections={sections} />}
+        {(item || guide) && (
+          <DocsToc
+            key={pathname}
+            item={item}
+            title={guide?.title}
+            sections={sections}
+          />
+        )}
       </div>
-      <DocsFooter />
+      {guide && (
+        <Footer className="mt-3 [clip-path:inset(0_round_24px_24px_0_0)] sm:[clip-path:inset(0_round_32px_32px_0_0)]" />
+      )}
     </div>
   );
 }

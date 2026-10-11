@@ -1,8 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { NotificationBell } from "@/components/ui/notification-bell";
-import ColorSwatches from "@/components/preview/ColorSwatches";
 import { usePreviewControl } from "@/components/preview/PreviewControls";
 
 const STEP =
@@ -29,15 +28,11 @@ function StepIcon({ plus }: { plus?: boolean }) {
 export default function NotificationBellPage() {
   const [count, setCount] = useState(8);
   const [color] = usePreviewControl("color", "red");
-  const previewRef = useRef<HTMLDivElement>(null);
 
   const shade = color as "red" | "orange" | "green" | "blue" | "violet";
 
   return (
-    <div
-      ref={previewRef}
-      className="relative flex h-full flex-col items-center justify-center gap-10"
-    >
+    <div className="flex h-full flex-col items-center justify-center gap-10">
       <NotificationBell count={count} size={72} color={shade} />
 
       <div className="flex items-center gap-2">
@@ -59,12 +54,6 @@ export default function NotificationBellPage() {
           <StepIcon plus />
         </button>
       </div>
-
-      <ColorSwatches
-        draggable
-        constraintsRef={previewRef}
-        className="absolute inset-x-0 bottom-4 mx-auto w-fit rounded-2xl bg-muted px-4 py-2.5 shadow-xl backdrop-blur"
-      />
     </div>
   );
 }

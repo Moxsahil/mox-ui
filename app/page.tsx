@@ -21,7 +21,7 @@ export default async function Home() {
   const stars = await fetchStarCount();
 
   return (
-    <div className="home flex flex-1 flex-col bg-home-bg font-runde text-home-fg">
+    <div className="home no-page-scrollbar flex flex-1 flex-col bg-home-bg font-runde text-home-fg">
       <HomeNav stars={stars} />
 
       <main>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import GooeyNavbar from "@/components/GooeyNavbar";
+import PillNavbar from "@/components/PillNavbar";
 import NotFoundHero from "@/components/not-found/NotFoundHero";
 import { fetchStarCount } from "@/lib/github";
 
@@ -14,7 +14,7 @@ export default async function NotFound() {
 
   return (
     <>
-      <GooeyNavbar stars={stars} />
+      <PillNavbar stars={stars} />
 
       <NotFoundHero />
 

@@ -52,6 +52,9 @@ export default function DocsFooter() {
             className="flex flex-col gap-3 text-home-muted"
           >
             <h2 className="mb-1 font-medium text-home-fg">Resources</h2>
+            <Link href="/docs/introduction" className="hover:text-home-fg">
+              Introduction
+            </Link>
             <a href="/llms.txt" className="hover:text-home-fg">
               llms.txt
             </a>

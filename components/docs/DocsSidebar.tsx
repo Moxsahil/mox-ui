@@ -1,30 +1,33 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Search, X } from "lucide-react";
-import {
-  CATEGORY_LABELS,
-  CATEGORY_ORDER,
-  components,
-  templates,
-  type ComponentItem,
-} from "@/lib/components";
+import type { ComponentItem } from "@/lib/components";
 import { cn } from "@/lib/utils";
+import { COMPONENT_GROUPS } from "./docs";
+
+const GETTING_STARTED = [
+  { label: "Introduction", href: "/docs/introduction" },
+  { label: "Installation", href: "/docs/installation" },
+  { label: "Templates", href: "/templates" },
+  { label: "Browse all", href: "/components?view=overview" },
+];
 
 const ROW =
-  "flex min-h-8 items-center rounded-lg px-2 text-sm transition-colors hover:bg-home-raised hover:text-home-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg motion-reduce:transition-none";
+  "relative flex min-h-8 items-center rounded-lg px-2 text-sm transition-colors hover:text-home-fg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-home-fg motion-reduce:transition-none";
 
 export default function DocsSidebar({ current }: { current?: ComponentItem }) {
   const pathname = usePathname();
   const asideRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const hoverRef = useRef<HTMLSpanElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const needle = query.trim().toLowerCase();
-  const introductoryPage = current?.href ?? components[0].href;
 
   useEffect(() => {
     const openSearch = () => {
@@ -61,29 +64,35 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
     if (row.top < bounds.top) aside.scrollTop -= bounds.top - row.top;
   }, [pathname]);
 
+  const isCurrent = (href: string) => href.split("?")[0] === pathname;
   const matches = (item: ComponentItem) =>
     !needle || item.name.toLowerCase().includes(needle);
-  const groups = [
-    {
-      id: "featured",
-      label: "Featured Components",
-      items: components.filter(
-        (item) => item.featured && !templates.includes(item) && matches(item),
-      ),
-    },
-    ...CATEGORY_ORDER.map((id) => ({
-      id,
-      label: CATEGORY_LABELS[id],
-      items: components.filter(
-        (item) =>
-          item.category === id &&
-          !item.featured &&
-          !templates.includes(item) &&
-          matches(item),
-      ),
-    })),
-    { id: "templates", label: "Templates", items: templates.filter(matches) },
-  ].filter((group) => group.items.length > 0);
+  const groups = COMPONENT_GROUPS.map((group) => ({
+    ...group,
+    items: group.items.filter(matches),
+  })).filter((group) => group.items.length > 0);
+
+  const moveHover = (event: PointerEvent<HTMLElement>) => {
+    const nav = navRef.current;
+    const hover = hoverRef.current;
+    const row = (event.target as Element).closest("a");
+    if (event.pointerType !== "mouse" || !nav || !hover || !row) return;
+    const from = nav.getBoundingClientRect();
+    const to = row.getBoundingClientRect();
+    const hidden = hover.style.opacity !== "1";
+    if (hidden) hover.style.transition = "none";
+    hover.style.transform = `translate(${to.left - from.left}px, ${to.top - from.top}px)`;
+    hover.style.width = `${to.width}px`;
+    hover.style.height = `${to.height}px`;
+    // flush the jump while transitions are off, so a hidden highlight appears in place instead of sliding in
+    if (hidden) void hover.offsetWidth;
+    hover.style.transition = "";
+    hover.style.opacity = "1";
+  };
+
+  const hideHover = () => {
+    if (hoverRef.current) hoverRef.current.style.opacity = "0";
+  };
 
   const closeSearch = () => {
     setQuery("");
@@ -104,7 +113,11 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
         aria-controls="docs-nav"
         className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 px-5 text-sm text-home-fg md:hidden"
       >
-        <span className="truncate">{current?.name ?? "Components"}</span>
+        <span className="truncate">
+          {current?.name ??
+            GETTING_STARTED.find((link) => isCurrent(link.href))?.label ??
+            "Components"}
+        </span>
         <span className="flex items-center gap-2 text-home-muted">
           Browse
           <ChevronDown
@@ -145,29 +158,35 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
             </button>
           </div>
         )}
-        <nav aria-label="Components" className="flex flex-col gap-8">
+        <nav
+          ref={navRef}
+          aria-label="Components"
+          onPointerOver={moveHover}
+          onPointerLeave={hideHover}
+          className="relative flex flex-col gap-8"
+        >
+          <span
+            ref={hoverRef}
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 rounded-lg bg-home-raised opacity-0 transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none"
+          />
           {!needle && (
             <div>
               <h2 className="px-2 pb-2.5 text-xs font-semibold text-home-muted">
                 Getting Started
               </h2>
               <ul className="flex flex-col gap-0.5 text-home-muted">
-                {[
-                  {
-                    label: "Introduction",
-                    href: `${introductoryPage}#preview`,
-                  },
-                  {
-                    label: "Installation",
-                    href: `${introductoryPage}#installation`,
-                  },
-                  { label: "Browse all", href: "/components?view=overview" },
-                ].map((link) => (
+                {GETTING_STARTED.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
                       onClick={() => setMenuOpen(false)}
-                      className={ROW}
+                      aria-current={isCurrent(link.href) ? "page" : undefined}
+                      className={cn(
+                        ROW,
+                        isCurrent(link.href) &&
+                          "bg-home-raised font-medium text-home-fg",
+                      )}
                     >
                       {link.label}
                     </Link>

@@ -92,13 +92,13 @@ Every component page on the [website](https://mox-ui.vercel.app/components) has 
 | [Hook sidebar](https://mox-ui.vercel.app/components/hooksidebar)                | A vertical navigation list with a dashed rail that marks the active item.                                          | `hook-sidebar`      |
 | [Proximity sidebar](https://mox-ui.vercel.app/components/proximitysidebar)      | An interactive sidebar with proximity hover effects that appears while scrolling and responds to scroll intensity. | `proximity-sidebar` |
 | [Scroll progress](https://mox-ui.vercel.app/components/scrollprogressindicator) | A scroll progress pill that expands into a squircle menu of sections you can jump to.                              | `scroll-progress`   |
-| [Gooey nav](https://mox-ui.vercel.app/components/gooeynav)                      | A gooey navigation bar that separates the selected item from the group.                                            | `gooey-nav`         |
+| [Liquid tab bar](https://mox-ui.vercel.app/components/liquidtabbar)             | A liquid glass tab bar with a stretchy selection lens and a detached search button.                                | `liquid-tab-bar`    |
 
 ### Inputs
 
 | Component                                                              | What it is                                                                                           | Install name      |
 | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------- |
-| [Duration picker](https://mox-ui.vercel.app/components/durationpicker) | A gooey, spring-animated picker for entering a duration in hours and minutes.                        | `duration-picker` |
+| [Duration picker](https://mox-ui.vercel.app/components/durationpicker) | A spring-animated picker for entering a duration in hours and minutes.                               | `duration-picker` |
 | [OTP input](https://mox-ui.vercel.app/components/otpinput)             | A one-time-code input whose characters roll into place behind a caret that slides from slot to slot. | `otp-input`       |
 | [Delete button](https://mox-ui.vercel.app/components/deletebutton)     | A delete button that asks for confirmation in place, no dialog needed.                               | `delete-button`   |
 
