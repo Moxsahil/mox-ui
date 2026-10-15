@@ -13,6 +13,7 @@ import {
   templates,
   type ComponentItem,
 } from "@/lib/components";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { cn } from "@/lib/utils";
 import { COMPONENT_GROUPS } from "./docs";
 
@@ -68,6 +69,8 @@ function GalleryCard({
   badge: ReactNode;
 }) {
   const [playing, setPlaying] = useState(false);
+  // touch screens never fire hover, so previews play while they are on screen instead
+  const touch = useMediaQuery("(hover: none)");
   const command = installCommand(item);
 
   return (
@@ -85,7 +88,11 @@ function GalleryCard({
           className="relative block aspect-16/10 overflow-hidden bg-home-raised shadow-[inset_0_0_0_1px_#0000000a,0_1px_3px_#00000012] outline-none focus-visible:ring-4 focus-visible:ring-home-fg/20"
         >
           {item.preview ? (
-            <PreviewVideo src={item.preview} playing={playing} />
+            <PreviewVideo
+              src={item.preview}
+              playing={playing}
+              autoPlay={touch}
+            />
           ) : item.image ? (
             <Image
               src={item.image}

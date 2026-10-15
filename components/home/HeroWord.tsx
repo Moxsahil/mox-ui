@@ -250,13 +250,18 @@ export default function HeroWord() {
         >
           <Accent className={GLASS_FALLBACK}>{word}</Accent>
         </span>
+        {/* zero until placeCanvas sizes it: the default 300x150 overflows phones when reduced motion skips the effect */}
         <canvas
           ref={glassRef}
+          width={0}
+          height={0}
           className="pointer-events-none absolute opacity-0"
           style={{ transition: GLASS_FADE }}
         />
         <canvas
           ref={dotsRef}
+          width={0}
+          height={0}
           className="pointer-events-none absolute opacity-0"
           style={{ transition: GLASS_FADE }}
         />

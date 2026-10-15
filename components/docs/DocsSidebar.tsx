@@ -55,7 +55,11 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
   useEffect(() => {
     const aside = asideRef.current;
     const selected = aside?.querySelector('[aria-current="page"]');
-    if (!aside || !selected || !window.matchMedia("(min-width: 768px)").matches)
+    if (
+      !aside ||
+      !selected ||
+      !window.matchMedia("(min-width: 1024px)").matches
+    )
       return;
     const bounds = aside.getBoundingClientRect();
     const row = selected.getBoundingClientRect();
@@ -104,14 +108,14 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
     <aside
       ref={asideRef}
       aria-label="Components navigation"
-      className="no-scrollbar border-b border-home-line bg-home-bg md:sticky md:top-14 md:h-[calc(100svh-3.5rem)] md:w-60 md:shrink-0 md:self-start md:overflow-y-auto md:overscroll-contain md:border-b-0 md:border-r xl:w-64"
+      className="no-scrollbar border-b border-home-line bg-home-bg lg:sticky lg:top-14 lg:h-[calc(100svh-3.5rem)] lg:w-60 lg:shrink-0 lg:self-start lg:overflow-y-auto lg:overscroll-contain lg:border-b-0 lg:border-r xl:w-64"
     >
       <button
         type="button"
         onClick={() => setMenuOpen((open) => !open)}
         aria-expanded={menuOpen}
         aria-controls="docs-nav"
-        className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 px-5 text-sm text-home-fg md:hidden"
+        className="flex min-h-12 w-full cursor-pointer items-center justify-between gap-3 px-5 text-sm text-home-fg lg:hidden"
       >
         <span className="truncate">
           {current?.name ??
@@ -129,8 +133,8 @@ export default function DocsSidebar({ current }: { current?: ComponentItem }) {
       <div
         id="docs-nav"
         className={cn(
-          "flex-col gap-8 px-3 pb-8 pt-5 md:pt-8",
-          menuOpen ? "flex" : "hidden md:flex",
+          "flex-col gap-8 px-3 pb-8 pt-5 lg:pt-8",
+          menuOpen ? "flex" : "hidden lg:flex",
         )}
       >
         {searchOpen && (

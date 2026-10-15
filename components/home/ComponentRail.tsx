@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useReducedMotion } from "motion/react";
 import PreviewFallback from "@/components/gallery/PreviewFallback";
 import PreviewVideo from "@/components/gallery/PreviewVideo";
 import {
@@ -12,6 +11,7 @@ import {
   type ComponentCategory,
   type ComponentItem,
 } from "@/lib/components";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { cn } from "@/lib/utils";
 import { WRAP } from "./wrap";
 
@@ -73,7 +73,8 @@ export default function ComponentRail() {
   const [filter, setFilter] = useState<Filter>("all");
   const [duration, setDuration] = useState(80);
   const trackRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  // not motion's useReducedMotion: it differs between server and first client render, which breaks hydration
+  const reduce = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   const list =
     filter === "all" ? ITEMS : ITEMS.filter((item) => item.category === filter);
