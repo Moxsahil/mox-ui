@@ -113,8 +113,11 @@ export default function GlassAccent({
       >
         <Accent className={cn(ACCENT_FALLBACK, className)}>{children}</Accent>
       </span>
+      {/* zero until placeCanvas sizes it: the default 300x150 overflows phones when reduced motion skips the effect */}
       <canvas
         ref={canvasRef}
+        width={0}
+        height={0}
         aria-hidden
         className="pointer-events-none absolute opacity-0"
         style={{ transition: GLASS_FADE }}

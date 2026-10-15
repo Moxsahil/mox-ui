@@ -68,7 +68,7 @@ export default function DocsShell({
       {/* overflow-clip, not hidden: a scroll container would break the sticky sidebar and toc */}
       <div
         className={cn(
-          "flex flex-1 flex-col md:flex-row",
+          "flex flex-1 flex-col lg:flex-row",
           guide &&
             "relative z-10 overflow-clip rounded-b-3xl bg-home-bg shadow-[0_40px_80px_-30px_rgba(9,9,11,0.35)] ring-1 ring-home-line sm:rounded-b-4xl dark:shadow-[0_40px_80px_-30px_rgba(0,0,0,0.9)]",
         )}
@@ -132,9 +132,10 @@ export default function DocsShell({
                   <h2 id="api-title" className={H2}>
                     Props
                   </h2>
+                  {/* below md each row stacks into a card, so phones read every column without sideways scrolling */}
                   <div className="mt-5 overflow-x-auto rounded-[10px] border border-home-line">
-                    <table className="w-full min-w-150 border-collapse text-left text-[13px]">
-                      <thead className="bg-home-surface font-mono text-xs text-home-fg-2">
+                    <table className="block w-full border-collapse text-left text-[13px] md:table md:min-w-150">
+                      <thead className="bg-home-surface font-mono text-xs text-home-fg-2 max-md:sr-only">
                         <tr>
                           {["Prop", "Type", "Default", "Description"].map(
                             (head) => (
@@ -149,15 +150,15 @@ export default function DocsShell({
                           )}
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="block md:table-row-group">
                         {item.props.map((prop) => (
                           <tr
                             key={prop.name}
-                            className="border-b border-home-line last:border-b-0"
+                            className="flex flex-col gap-1.5 border-b border-home-line px-4 py-3.5 last:border-b-0 md:table-row md:p-0"
                           >
                             <th
                               scope="row"
-                              className="px-4 py-3 align-top font-medium"
+                              className="block align-top font-medium md:table-cell md:px-4 md:py-3"
                             >
                               <code className="font-mono text-xs">
                                 {prop.name}
@@ -171,17 +172,25 @@ export default function DocsShell({
                                 )}
                               </code>
                             </th>
-                            <td className="px-4 py-3 align-top text-home-fg-2">
-                              <code className="font-mono text-xs">
+                            <td className="block align-top text-home-fg-2 md:table-cell md:px-4 md:py-3">
+                              <code className="font-mono text-xs wrap-break-word">
                                 {prop.type}
                               </code>
                             </td>
-                            <td className="px-4 py-3 align-top text-home-fg-2">
-                              <code className="font-mono text-xs">
+                            <td
+                              className={cn(
+                                "block align-top text-home-fg-2 md:table-cell md:px-4 md:py-3",
+                                !prop.default && "max-md:hidden",
+                              )}
+                            >
+                              <span className="text-xs text-home-muted md:hidden">
+                                Default:{" "}
+                              </span>
+                              <code className="font-mono text-xs wrap-break-word">
                                 {prop.default ?? "-"}
                               </code>
                             </td>
-                            <td className="px-4 py-3 align-top leading-6 text-home-fg-2">
+                            <td className="block pt-1 align-top leading-6 text-home-fg-2 md:table-cell md:px-4 md:py-3">
                               {prop.description}
                             </td>
                           </tr>

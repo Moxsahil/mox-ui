@@ -223,7 +223,7 @@ export default function Footer({ className }: { className?: string }) {
           ref={contentRef}
           className="mx-auto flex w-full max-w-[calc(1200px_+_2*var(--footer-gutter))] flex-col gap-[clamp(28px,4vh,48px)] px-(--footer-gutter) pt-[clamp(48px,9vh,104px)] [--footer-gutter:clamp(16px,4vw,40px)]"
         >
-          <div className="grid items-start gap-10 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+          <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
             <div className="flex min-w-0 flex-col gap-5">
               <Link
                 href="/"
@@ -286,16 +286,16 @@ export default function Footer({ className }: { className?: string }) {
                   <h3 className="mb-3.5 font-mono text-xs font-medium uppercase tracking-[0.08em] text-[#E2E9FF]/60">
                     {column.title}
                   </h3>
-                  <ul className="flex flex-col gap-2.5">
+                  <ul className="flex flex-col gap-2">
                     {column.links.map((link) => (
                       <li key={link.href}>
                         <FooterAnchor
                           {...link}
-                          className="inline-flex items-center gap-2 font-runde text-[15px] transition-[color,transform] duration-200 ease-[cubic-bezier(0.3,1.4,0.5,1)] hover:translate-x-0.75 hover:text-[#8EB2FF]"
+                          className="inline-flex min-h-6 items-center gap-2 font-runde text-[15px] transition-[color,transform] duration-200 ease-[cubic-bezier(0.3,1.4,0.5,1)] hover:translate-x-0.75 hover:text-[#8EB2FF]"
                         >
                           {link.label}
                           {link.tag && (
-                            <span className="rounded-full border border-[#8EB2FF]/35 px-1.75 text-[10px] font-semibold tracking-[0.04em] text-[#8EB2FF]">
+                            <span className="rounded-full border border-[#8EB2FF]/35 px-1.75 text-[11px] font-semibold tracking-[0.04em] text-[#8EB2FF]">
                               {link.tag}
                             </span>
                           )}
@@ -332,7 +332,7 @@ export default function Footer({ className }: { className?: string }) {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="transition-colors hover:text-[#8EB2FF]"
+                  className="-m-2 inline-flex size-8 items-center justify-center transition-colors hover:text-[#8EB2FF]"
                 >
                   <Icon className="size-4" />
                 </a>

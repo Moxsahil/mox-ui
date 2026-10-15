@@ -79,7 +79,7 @@ export default function DocsHeader({ stars }: { stars?: number | null }) {
             target="_blank"
             rel="noreferrer"
             aria-label={`${SITE_NAME} on GitHub`}
-            className="ml-1 flex h-5 items-center gap-1.5 border-l border-home-line pl-3 text-xs text-home-muted hover:text-home-fg"
+            className="relative ml-1 flex h-8 items-center gap-1.5 pl-3 pr-1 text-xs text-home-muted before:absolute before:left-0 before:top-1.5 before:h-5 before:w-px before:bg-home-line hover:text-home-fg"
           >
             <GithubLogo className="size-4" />
             <span className="hidden tabular-nums sm:inline">
