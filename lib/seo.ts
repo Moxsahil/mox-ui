@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { components } from "@/lib/components";
+import { components, templates } from "@/lib/components";
 import {
   SITE_ALT_NAMES,
   SITE_DESCRIPTION,
@@ -165,6 +165,88 @@ export function siteJsonLd() {
         description: SITE_DESCRIPTION,
         softwareHelp: `${SITE_URL}/components`,
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+      },
+    ],
+  };
+}
+
+const DOCS_HOME = "/docs/introduction";
+
+function breadcrumbJsonLd(trail: { name: string; path: string }[]) {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: [{ name: "Home", path: "" }, ...trail].map(
+      (crumb, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.name,
+        item: `${SITE_URL}${crumb.path}`,
+      }),
+    ),
+  };
+}
+
+export function docsJsonLd({
+  title,
+  description,
+  path,
+}: {
+  title: string;
+  description: string;
+  path: string;
+}) {
+  const url = `${SITE_URL}${path}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbJsonLd(
+        path === DOCS_HOME
+          ? [{ name: title, path }]
+          : [
+              { name: "Docs", path: DOCS_HOME },
+              { name: title, path },
+            ],
+      ),
+      {
+        "@type": "TechArticle",
+        headline: title,
+        description,
+        url,
+        inLanguage: "en",
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        about: { "@id": `${SITE_URL}/#software` },
+        author: { "@id": `${SITE_URL}/#organization` },
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
+}
+
+export function templatesJsonLd(description: string) {
+  const url = `${SITE_URL}/templates`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbJsonLd([{ name: "Templates", path: "/templates" }]),
+      {
+        "@type": "CollectionPage",
+        name: `${SITE_NAME} Templates`,
+        description,
+        url,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: templates.length,
+          itemListElement: templates.map((item, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.name,
+            description: item.description,
+            url: `${SITE_URL}${item.href}`,
+          })),
+        },
       },
     ],
   };

@@ -1,17 +1,16 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 import DocsQuickInstall from "@/components/docs/DocsQuickInstall";
 import { components, REGISTRY_HOMEPAGE } from "@/lib/components";
-import { pageMetadata } from "@/lib/seo";
+import { docsJsonLd, pageMetadata } from "@/lib/seo";
 
 const description =
   "A free, copy-paste library of animated React components and page templates, built with Tailwind CSS and Motion.";
 
-export const metadata = pageMetadata({
-  title: "Introduction",
-  description,
-  path: "/docs/introduction",
-});
+const PAGE = { title: "Introduction", description, path: "/docs/introduction" };
+
+export const metadata = pageMetadata(PAGE);
 
 const CONTENTS = [
   {
@@ -96,6 +95,7 @@ export default function IntroductionPage() {
 
   return (
     <article className="mx-auto w-full max-w-2xl pb-14">
+      <JsonLd data={docsJsonLd(PAGE)} />
       <section
         id="introduction"
         aria-labelledby="introduction-heading"
