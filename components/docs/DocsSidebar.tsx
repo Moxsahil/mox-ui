@@ -12,7 +12,7 @@ const GETTING_STARTED = [
   { label: "Introduction", href: "/docs/introduction" },
   { label: "Installation", href: "/docs/installation" },
   { label: "Templates", href: "/templates" },
-  { label: "Browse all", href: "/components?view=overview" },
+  { label: "Browse all", href: "/components" },
 ];
 
 const ROW =

@@ -25,6 +25,8 @@ const LINKS = [
   { label: "Templates", href: "/templates" },
 ];
 
+const QUICK_START = "/components/animatedbeam";
+
 const MENU = [
   { ...LINKS[0], meta: "Start here" },
   { ...LINKS[1], meta: String(components.length) },
@@ -199,7 +201,7 @@ export default function HomeNav({ stars }: { stars?: number | null }) {
             />
 
             <Link
-              href="/components"
+              href={QUICK_START}
               aria-hidden={open || undefined}
               tabIndex={open ? -1 : undefined}
               className={cn(
@@ -358,7 +360,7 @@ export default function HomeNav({ stars }: { stars?: number | null }) {
             </div>
 
             <Link
-              href="/components"
+              href={QUICK_START}
               onClick={close}
               className="flex h-13.5 items-center justify-between rounded-full bg-home-fg pl-5.5 pr-2 text-base font-semibold text-home-bg transition-colors duration-150 hover:bg-home-fg/90"
             >

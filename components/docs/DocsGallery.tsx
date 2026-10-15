@@ -9,6 +9,7 @@ import PreviewFallback from "@/components/gallery/PreviewFallback";
 import PreviewVideo from "@/components/gallery/PreviewVideo";
 import { MoxMark } from "@/components/MoxLogo";
 import {
+  components,
   installCommand,
   templates,
   type ComponentItem,
@@ -30,6 +31,7 @@ type GallerySection = {
 const GALLERIES = {
   components: {
     heading: "Components",
+    intro: `${components.length} free, animated React components built with Tailwind CSS and Motion. Preview each one live, then install it with the shadcn CLI and own the source.`,
     sections: COMPONENT_GROUPS.map(({ id, label, note, items }) => ({
       id,
       title: label,
@@ -39,6 +41,8 @@ const GALLERIES = {
   },
   templates: {
     heading: "Templates",
+    intro:
+      "Complete landing pages you install with the shadcn CLI and adapt into your own site. Each one is free and ships as source you own.",
     sections: [
       {
         id: "templates",
@@ -48,7 +52,10 @@ const GALLERIES = {
       },
     ],
   },
-} satisfies Record<string, { heading: string; sections: GallerySection[] }>;
+} satisfies Record<
+  string,
+  { heading: string; intro: string; sections: GallerySection[] }
+>;
 
 function badgeFor(kind: keyof typeof GALLERIES, item: ComponentItem) {
   if (kind === "templates")
@@ -151,11 +158,18 @@ export default function DocsGallery({
 }: {
   kind: keyof typeof GALLERIES;
 }) {
-  const { heading, sections } = GALLERIES[kind];
+  const { heading, intro, sections } = GALLERIES[kind];
 
   return (
     <div className="flex flex-col gap-10">
-      <h1 className="sr-only">{heading}</h1>
+      <header className="px-1 pt-2">
+        <h1 className="text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+          {heading}
+        </h1>
+        <p className="mt-3 max-w-2xl text-[15px] leading-7 text-home-fg-2 sm:text-base">
+          {intro}
+        </p>
+      </header>
       {sections
         .filter((section) => section.items.length > 0)
         .map((section) => (

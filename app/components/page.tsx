@@ -7,7 +7,7 @@ export const metadata = pageMetadata({
   title: "Components",
   description:
     "Browse every Mox UI (MoxUI) component in action: animated React components built with Tailwind CSS and Motion. Install any of them with the shadcn CLI.",
-  path: "/components?view=overview",
+  path: "/components",
 });
 
 export default async function ComponentsIndexPage() {

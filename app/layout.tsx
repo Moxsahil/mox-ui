@@ -23,11 +23,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// runde and fraunces total about 780kb: preloading them on every route starved the docs of inter and shifted their layout
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   style: "italic",
   axes: ["SOFT", "WONK", "opsz"],
+  preload: false,
 });
 
 // only a few component demos use cal sans, so it shouldn't cost every page a 104kb preload
@@ -41,6 +43,7 @@ const calSans = localFont({
 
 const openRunde = localFont({
   variable: "--font-open-runde",
+  preload: false,
   src: [
     {
       path: "../public/fonts/OpenRunde-Regular.woff2",

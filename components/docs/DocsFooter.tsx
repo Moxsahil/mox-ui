@@ -40,12 +40,6 @@ export default function DocsFooter() {
             <Link href="/templates" className="hover:text-home-fg">
               Templates
             </Link>
-            <Link
-              href="/components?view=overview"
-              className="hover:text-home-fg"
-            >
-              Component gallery
-            </Link>
           </nav>
           <nav
             aria-label="Resources"
