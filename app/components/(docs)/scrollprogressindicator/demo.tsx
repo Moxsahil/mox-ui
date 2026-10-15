@@ -39,7 +39,7 @@ const docs: DocGroup[] = [
         eyebrow: "The signal",
         title: "One value, mapped to width",
         description:
-          "The component tracks a single scalar between zero and one and maps it to the fill. Everything else — color, thickness, placement — is presentation on top of that value.",
+          "The component tracks a single scalar between zero and one and maps it to the fill. Everything else (color, thickness, placement) is presentation on top of that value.",
       },
       {
         id: "overview-placement",

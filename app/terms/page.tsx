@@ -1,44 +1,28 @@
-import type { Metadata } from "next";
-import Footer from "@/components/Footer";
-import PillNavbar from "@/components/PillNavbar";
 import LegalPage from "@/components/legal/LegalPage";
 import { fetchStarCount } from "@/lib/github";
+import { pageMetadata } from "@/lib/seo";
 import { LEGAL_UPDATED, TERMS_SECTIONS } from "@/lib/legal";
 import { SITE_NAME } from "@/lib/site";
 
 const DESCRIPTION = `The terms for using ${SITE_NAME}: the free MIT licensed component registry, contributions, acceptable use and support.`;
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Terms of Service",
   description: DESCRIPTION,
-  alternates: {
-    canonical: "/terms",
-  },
-  openGraph: {
-    title: `Terms of Service | ${SITE_NAME}`,
-    description: DESCRIPTION,
-    url: "/terms",
-    siteName: SITE_NAME,
-    locale: "en_US",
-    type: "website",
-  },
-};
+  path: "/terms",
+});
 
 export default async function TermsOfServicePage() {
   const stars = await fetchStarCount();
 
   return (
-    <>
-      <PillNavbar stars={stars} />
-
-      <LegalPage
-        title="Terms of Service"
-        updated={LEGAL_UPDATED}
-        intro={DESCRIPTION}
-        sections={TERMS_SECTIONS}
-      />
-
-      <Footer />
-    </>
+    <LegalPage
+      title="Terms of Service"
+      href="/terms"
+      stars={stars}
+      updated={LEGAL_UPDATED}
+      intro={DESCRIPTION}
+      sections={TERMS_SECTIONS}
+    />
   );
 }

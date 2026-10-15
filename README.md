@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://mox-ui.vercel.app">
+  <a href="https://moxui.dev">
     <img src="public/assets/repoassets/banner.png" alt="Mox UI: every design matters" width="100%" />
   </a>
 
@@ -14,7 +14,7 @@
 <img src="https://img.shields.io/badge/shadcn-registry-3B6FF0?labelColor=0a0a0a" alt="shadcn registry" />
 <img src="https://img.shields.io/badge/license-MIT-3B6FF0?labelColor=0a0a0a" alt="MIT license" />
 
-[**Website**](https://mox-ui.vercel.app) &nbsp;&middot;&nbsp; [Components](https://mox-ui.vercel.app/components) &nbsp;&middot;&nbsp; [llms.txt](https://mox-ui.vercel.app/llms.txt) &nbsp;&middot;&nbsp; [Contributing](CONTRIBUTING.md)
+[**Website**](https://moxui.dev) &nbsp;&middot;&nbsp; [Components](https://moxui.dev/components) &nbsp;&middot;&nbsp; [llms.txt](https://moxui.dev/llms.txt) &nbsp;&middot;&nbsp; [Contributing](CONTRIBUTING.md)
 
 </div>
 
@@ -25,7 +25,7 @@ Mox UI is a free, open-source registry of animated React components. There is no
 - **Built to feel good.** Every interaction is tuned with springs, easing and timing that make the interface feel alive.
 - **Accessible motion.** Interactive components honor `prefers-reduced-motion`.
 - **One command.** The shadcn CLI adds the component and installs its dependencies.
-- **Ready for AI tools.** Every component has a copyable install command, and the full list is at [`/llms.txt`](https://mox-ui.vercel.app/llms.txt) for Claude, Codex, v0, Cursor and other assistants.
+- **Ready for AI tools.** Every component has a copyable install command, and the full list is at [`/llms.txt`](https://moxui.dev/llms.txt) for Claude, Codex, v0, Cursor and other assistants.
 
 ## Quick start
 
@@ -59,55 +59,55 @@ export function Revenue({ total }: { total: number }) {
 }
 ```
 
-Every component page on the [website](https://mox-ui.vercel.app/components) has a live preview, the full props table and a usage example.
+Every component page on the [website](https://moxui.dev/components) has a live preview, the full props table and a usage example.
 
 ## Components
 
 ### Display
 
-| Component                                                                        | What it is                                                                                                            | Install name           |
-| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------- |
-| [SaaS template](https://mox-ui.vercel.app/components/saastemplate)               | A dark landing page template with a navbar, a hero, and a product screenshot.                                         | `saas-template`        |
-| [Contribution skyline](https://mox-ui.vercel.app/components/contributionskyline) | A contribution calendar with a heatmap and an interactive 3D skyline.                                                 | `contribution-skyline` |
-| [Folder component](https://mox-ui.vercel.app/components/foldercomponent)         | An animated folder whose cards fan out on hover and lift open on click, with a 3D-tilted flap.                        | `folder-component`     |
-| [Code block](https://mox-ui.vercel.app/components/codeblock)                     | A clean code block that builds its entire theme from a single accent color.                                           | `code-block`           |
-| [Gravity letters](https://mox-ui.vercel.app/components/gravityletters)           | A playful gravity field where letters, numbers, emoji, or any components you pass fall and pile up like real objects. | `gravity-letters`      |
-| [GitHub activity](https://mox-ui.vercel.app/components/githubactivity)           | A contribution heatmap with a footer panel that expands over the grid to rank your top repositories.                  | `github-activity`      |
-| [Step player](https://mox-ui.vercel.app/components/stepplayer)                   | An iOS-style stepped progress track with a play, pause and replay control.                                            | `step-player`          |
-| [Animated counter](https://mox-ui.vercel.app/components/animatedcounter)         | A number that counts to its new value on a wheel of digits, like an odometer.                                         | `animated-counter`     |
+| Component                                                                | What it is                                                                                                            | Install name           |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| [SaaS template](https://moxui.dev/components/saastemplate)               | A dark landing page template with a navbar, a hero, and a product screenshot.                                         | `saas-template`        |
+| [Contribution skyline](https://moxui.dev/components/contributionskyline) | A contribution calendar with a heatmap and an interactive 3D skyline.                                                 | `contribution-skyline` |
+| [Folder component](https://moxui.dev/components/foldercomponent)         | An animated folder whose cards fan out on hover and lift open on click, with a 3D-tilted flap.                        | `folder-component`     |
+| [Code block](https://moxui.dev/components/codeblock)                     | A clean code block that builds its entire theme from a single accent color.                                           | `code-block`           |
+| [Gravity letters](https://moxui.dev/components/gravityletters)           | A playful gravity field where letters, numbers, emoji, or any components you pass fall and pile up like real objects. | `gravity-letters`      |
+| [GitHub activity](https://moxui.dev/components/githubactivity)           | A contribution heatmap with a footer panel that expands over the grid to rank your top repositories.                  | `github-activity`      |
+| [Step player](https://moxui.dev/components/stepplayer)                   | An iOS-style stepped progress track with a play, pause and replay control.                                            | `step-player`          |
+| [Animated counter](https://moxui.dev/components/animatedcounter)         | A number that counts to its new value on a wheel of digits, like an odometer.                                         | `animated-counter`     |
 
 ### AI kit
 
-| Component                                                      | What it is                                                                           | Install name  |
-| -------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------- |
-| [Fluid orb](https://mox-ui.vercel.app/components/fluidorb)     | An animated WebGL orb with drifting fluid shading, inspired by ChatGPT's voice mode. | `fluid-orb`   |
-| [Grid reveal](https://mox-ui.vercel.app/components/gridreveal) | A loading state for AI images that turns into the real picture when it arrives.      | `grid-reveal` |
-| [Matrix orb](https://mox-ui.vercel.app/components/matrixorb)   | A dot-matrix orb that animates through idle, listening and thinking states.          | `matrix-orb`  |
+| Component                                              | What it is                                                                           | Install name  |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------- |
+| [Fluid orb](https://moxui.dev/components/fluidorb)     | An animated WebGL orb with drifting fluid shading, inspired by ChatGPT's voice mode. | `fluid-orb`   |
+| [Grid reveal](https://moxui.dev/components/gridreveal) | A loading state for AI images that turns into the real picture when it arrives.      | `grid-reveal` |
+| [Matrix orb](https://moxui.dev/components/matrixorb)   | A dot-matrix orb that animates through idle, listening and thinking states.          | `matrix-orb`  |
 
 ### Navigation
 
-| Component                                                                       | What it is                                                                                                         | Install name        |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| [Bounce sidebar](https://mox-ui.vercel.app/components/bouncesidebar)            | A vertical navigation list with a bouncy, spring-animated active indicator.                                        | `bounce-sidebar`    |
-| [Hook sidebar](https://mox-ui.vercel.app/components/hooksidebar)                | A vertical navigation list with a dashed rail that marks the active item.                                          | `hook-sidebar`      |
-| [Proximity sidebar](https://mox-ui.vercel.app/components/proximitysidebar)      | An interactive sidebar with proximity hover effects that appears while scrolling and responds to scroll intensity. | `proximity-sidebar` |
-| [Scroll progress](https://mox-ui.vercel.app/components/scrollprogressindicator) | A scroll progress pill that expands into a squircle menu of sections you can jump to.                              | `scroll-progress`   |
-| [Liquid tab bar](https://mox-ui.vercel.app/components/liquidtabbar)             | A liquid glass tab bar with a stretchy selection lens and a detached search button.                                | `liquid-tab-bar`    |
+| Component                                                               | What it is                                                                                                         | Install name        |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| [Bounce sidebar](https://moxui.dev/components/bouncesidebar)            | A vertical navigation list with a bouncy, spring-animated active indicator.                                        | `bounce-sidebar`    |
+| [Hook sidebar](https://moxui.dev/components/hooksidebar)                | A vertical navigation list with a dashed rail that marks the active item.                                          | `hook-sidebar`      |
+| [Proximity sidebar](https://moxui.dev/components/proximitysidebar)      | An interactive sidebar with proximity hover effects that appears while scrolling and responds to scroll intensity. | `proximity-sidebar` |
+| [Scroll progress](https://moxui.dev/components/scrollprogressindicator) | A scroll progress pill that expands into a squircle menu of sections you can jump to.                              | `scroll-progress`   |
+| [Liquid tab bar](https://moxui.dev/components/liquidtabbar)             | A liquid glass tab bar with a stretchy selection lens and a detached search button.                                | `liquid-tab-bar`    |
 
 ### Inputs
 
-| Component                                                              | What it is                                                                                           | Install name      |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------- |
-| [Duration picker](https://mox-ui.vercel.app/components/durationpicker) | A spring-animated picker for entering a duration in hours and minutes.                               | `duration-picker` |
-| [OTP input](https://mox-ui.vercel.app/components/otpinput)             | A one-time-code input whose characters roll into place behind a caret that slides from slot to slot. | `otp-input`       |
-| [Delete button](https://mox-ui.vercel.app/components/deletebutton)     | A delete button that asks for confirmation in place, no dialog needed.                               | `delete-button`   |
+| Component                                                      | What it is                                                                                           | Install name      |
+| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------- |
+| [Duration picker](https://moxui.dev/components/durationpicker) | A spring-animated picker for entering a duration in hours and minutes.                               | `duration-picker` |
+| [OTP input](https://moxui.dev/components/otpinput)             | A one-time-code input whose characters roll into place behind a caret that slides from slot to slot. | `otp-input`       |
+| [Delete button](https://moxui.dev/components/deletebutton)     | A delete button that asks for confirmation in place, no dialog needed.                               | `delete-button`   |
 
 ### Feedback
 
-| Component                                                                  | What it is                                                                                                           | Install name        |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| [Emoji reaction](https://mox-ui.vercel.app/components/emojireaction)       | A tapback-style reaction button that opens a bar of Apple emoji and sends copies of your pick floating up out of it. | `emoji-reaction`    |
-| [Notification bell](https://mox-ui.vercel.app/components/notificationbell) | An iOS-style notification bell with an unread count badge.                                                           | `notification-bell` |
+| Component                                                          | What it is                                                                                                           | Install name        |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| [Emoji reaction](https://moxui.dev/components/emojireaction)       | A tapback-style reaction button that opens a bar of Apple emoji and sends copies of your pick floating up out of it. | `emoji-reaction`    |
+| [Notification bell](https://moxui.dev/components/notificationbell) | An iOS-style notification bell with an unread count badge.                                                           | `notification-bell` |
 
 ## Run the site locally
 
@@ -164,7 +164,7 @@ design are separate.
 
 <div align="center">
   <br />
-  <a href="https://mox-ui.vercel.app">
+  <a href="https://moxui.dev">
     <img src="public/logos/mox-mark.svg" alt="Mox UI" width="28" />
   </a>
   <p><sub>Every design matters.</sub></p>

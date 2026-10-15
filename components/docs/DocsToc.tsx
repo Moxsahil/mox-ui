@@ -31,10 +31,12 @@ export default function DocsToc({
   item,
   title,
   sections,
+  contribute = true,
 }: {
   item?: ComponentItem;
   title?: string;
   sections: TocSection[];
+  contribute?: boolean;
 }) {
   const trackRef = useRef<SVGPathElement>(null);
   const [active, setActive] = useState(sections[0]?.id);
@@ -207,26 +209,28 @@ export default function DocsToc({
             </ul>
           </div>
         </nav>
-        <div>
-          <h2 className="pb-3 text-sm font-semibold text-home-fg">
-            Contribute
-          </h2>
-          <ul className="flex flex-col gap-2.5 text-sm text-home-muted">
-            {contributions.map(({ label, href, icon: Icon }) => (
-              <li key={label}>
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-3 rounded-sm transition-colors hover:text-home-fg motion-reduce:transition-none"
-                >
-                  <Icon aria-hidden="true" className="size-4 shrink-0" />
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {contribute && (
+          <div>
+            <h2 className="pb-3 text-sm font-semibold text-home-fg">
+              Contribute
+            </h2>
+            <ul className="flex flex-col gap-2.5 text-sm text-home-muted">
+              {contributions.map(({ label, href, icon: Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-3 rounded-sm transition-colors hover:text-home-fg motion-reduce:transition-none"
+                  >
+                    <Icon aria-hidden="true" className="size-4 shrink-0" />
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </aside>
   );

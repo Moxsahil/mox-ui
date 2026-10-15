@@ -1,4 +1,4 @@
-export const SITE_URL = "https://mox-ui.vercel.app";
+export const SITE_URL = "https://moxui.dev";
 
 export const SITE_NAME = "Mox UI";
 

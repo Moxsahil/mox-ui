@@ -35,15 +35,53 @@ export const SITE_KEYWORDS = [
   "microinteractions",
 ];
 
+// next replaces nested metadata objects, so a page without its own openGraph inherits the homepage's url and title
+export function pageMetadata({
+  title,
+  description,
+  path,
+  keywords = SITE_KEYWORDS,
+}: {
+  title: string;
+  description: string;
+  path: string;
+  keywords?: string[];
+}): Metadata {
+  const fullTitle = `${title} | ${SITE_NAME}`;
+
+  return {
+    title,
+    description,
+    keywords,
+    alternates: { canonical: path },
+    openGraph: {
+      title: fullTitle,
+      description,
+      url: path,
+      siteName: SITE_NAME,
+      locale: "en_US",
+      type: "website",
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: fullTitle,
+      description,
+      images: [OG_IMAGE.url],
+    },
+  };
+}
+
 export function componentPageMetadata(href: string): Metadata {
   const item = components.find((c) => c.href === href);
   if (!item) return {};
 
   const name = item.name.toLowerCase();
 
-  return {
-    title: `${item.name} — Animated React Component`,
-    description: item.description,
+  return pageMetadata({
+    title: `${item.name}: Animated React Component`,
+    description: item.description ?? SITE_DESCRIPTION,
+    path: item.href,
     keywords: [
       name,
       `${name} react`,
@@ -52,10 +90,7 @@ export function componentPageMetadata(href: string): Metadata {
       `${name} shadcn`,
       ...SITE_KEYWORDS,
     ],
-    alternates: {
-      canonical: item.href,
-    },
-  };
+  });
 }
 
 export function componentJsonLd(href: string) {
@@ -106,7 +141,7 @@ export function siteJsonLd() {
         name: SITE_NAME,
         alternateName: SITE_ALT_NAMES,
         url: SITE_URL,
-        logo: `${SITE_URL}/logos/mox-mark.svg`,
+        logo: `${SITE_URL}/icon-512.png`,
         sameAs: [SITE_REPO],
       },
       {

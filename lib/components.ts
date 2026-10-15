@@ -453,7 +453,7 @@ export function Demo() {
           "Overall scale of the folder. Maps to 0.65× (sm), 1× (md), and 1.35× (lg).",
       },
     ],
-    usage: `import { Folder } from "@/components/ui/folder-component",
+    usage: `import { Folder } from "@/components/ui/folder-component";
 
 export function Demo() {
   return <Folder color="blue" size="md" />
@@ -705,7 +705,7 @@ export function Demo() {
       { name: "@radix-ui/react-slot" },
     ],
     interaction:
-      "Click the pen to spring the segments apart and start editing — the hours field is focused for you. Type your values; anything past the ceiling (24 hr / 60 min by default) clamps to the max and shakes so you know it was corrected. Click the tick to confirm and watch the pill merge back into one piece.",
+      "Click the pen to spring the segments apart and start editing; the hours field is focused for you. Type your values; anything past the ceiling (24 hr / 60 min by default) clamps to the max and shakes so you know it was corrected. Click the tick to confirm and watch the pill merge back into one piece.",
     props: [
       {
         name: "value",
@@ -724,7 +724,7 @@ export function Demo() {
         name: "onChange",
         type: "(value: DurationValue) => void",
         description:
-          "Fires on every keystroke with the current clamped value — listen here if you want to react while the user types.",
+          "Fires on every keystroke with the current clamped value. Listen here if you want to react while the user types.",
       },
       {
         name: "onConfirm",
@@ -736,7 +736,7 @@ export function Demo() {
         name: "onEditingChange",
         type: "(editing: boolean) => void",
         description:
-          "Notifies you when the picker enters or leaves edit mode — handy for blocking navigation or dimming surrounding UI while open.",
+          "Notifies you when the picker enters or leaves edit mode. Handy for blocking navigation or dimming surrounding UI while open.",
       },
       {
         name: "defaultEditing",
@@ -763,7 +763,7 @@ export function Demo() {
         type: "string",
         default: '"Hr."',
         description:
-          "Text rendered after the hours field — swap it for a translation or a terser 'h'.",
+          "Text rendered after the hours field. Swap it for a translation or a terser 'h'.",
       },
       {
         name: "minutesLabel",
@@ -816,7 +816,7 @@ export function Demo() {
     preview: "/componentdemos/fluidorb.mp4",
     featured: true,
     interaction:
-      "Ambient — the color patches drift left, right, up, down and diagonally on their own, blending and reforming with no interaction required. Honors prefers-reduced-motion by holding a still frame.",
+      "Ambient: the color patches drift left, right, up, down and diagonally on their own, blending and reforming with no interaction required. Honors prefers-reduced-motion by holding a still frame.",
     props: [
       {
         name: "color",
@@ -895,7 +895,7 @@ export function Demo() {
         name: "className",
         type: "string",
         description:
-          "Extra classes merged onto the fixed root wrapper — use it to reposition the pill.",
+          "Extra classes merged onto the fixed root wrapper. Use it to reposition the pill.",
       },
     ],
     usage: `"use client"
@@ -992,7 +992,7 @@ export function Demo() {
         type: "boolean",
         default: "true",
         description:
-          "Toggles the outer layout — background, border, rounded corners, and header. Turn off to render nothing but the highlighted code.",
+          "Toggles the outer layout: background, border, rounded corners, and header. Turn off to render nothing but the highlighted code.",
       },
       {
         name: "showHeader",
@@ -1023,7 +1023,7 @@ export function Demo() {
         name: "className",
         type: "string",
         description:
-          'Extra classes merged onto the root element (data-slot="code-block") — use it for width and max-height.',
+          'Extra classes merged onto the root element (data-slot="code-block"). Use it for width and max-height.',
       },
     ],
     usage: `import CodeBlock from "@/components/ui/code-block"

@@ -34,6 +34,10 @@
   },
   "decisions": [
     {
+      "scope": "app/not-found.tsx",
+      "decision": "Use the supplied animated 404 with tumbling figures and a circle reveal. Reuse HomeNav and the home theme tokens. Keep navigation usable with reduced motion and serve the supplied artwork locally."
+    },
+    {
       "scope": "components/docs",
       "decision": "Match the supplied Forge UI component documentation reference: full-width header, flat left navigation, centered preview and source tabs, numbered installation steps, and a right page index. Use Mox UI branding and existing catalog data.",
       "reference": "https://forgeui.in/components/animated-form"
