@@ -1,17 +1,16 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import JsonLd from "@/components/JsonLd";
 import DocsInstallGuide from "@/components/docs/DocsInstallGuide";
 import { READING_ORDER } from "@/components/docs/docs";
-import { pageMetadata } from "@/lib/seo";
+import { docsJsonLd, pageMetadata } from "@/lib/seo";
 
 const description =
   "Set up a Next.js project with Tailwind CSS and shadcn, then add your first Mox UI component.";
 
-export const metadata = pageMetadata({
-  title: "Installation",
-  description,
-  path: "/docs/installation",
-});
+const PAGE = { title: "Installation", description, path: "/docs/installation" };
+
+export const metadata = pageMetadata(PAGE);
 
 const PAGER =
   "flex flex-col gap-1 rounded-[10px] border border-home-line px-4 py-3 text-sm transition-colors hover:border-home-line-strong hover:bg-home-surface focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-home-fg motion-reduce:transition-none";
@@ -21,6 +20,7 @@ export default function InstallationPage() {
 
   return (
     <article className="mx-auto w-full max-w-2xl pb-14">
+      <JsonLd data={docsJsonLd(PAGE)} />
       <header>
         <h1 className="text-4xl font-semibold tracking-[-0.035em] text-home-fg">
           Installation
