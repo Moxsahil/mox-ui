@@ -30,7 +30,7 @@ export type CodeBlockProps = Omit<React.ComponentProps<"div">, "children"> & {
   mode?: "auto" | "dark" | "light";
   /** Filename or path shown in the header. Falls back to the language id when omitted. */
   filename?: string;
-  /** Show the outer frame — background, border, rounded corners, and header. Turn off to render just the code. */
+  /** Show the outer frame: background, border, rounded corners, and header. Turn off to render just the code. */
   showFrame?: boolean;
   /** Show the header bar. Ignored when the frame is off. */
   showHeader?: boolean;

@@ -101,6 +101,7 @@ export default function DocsShell({
                 scrollable={SCROLLABLE_PREVIEWS.has(
                   item.href.split("/").filter(Boolean).pop() ?? "",
                 )}
+                template={item.registry?.endsWith("-template")}
               >
                 {children}
               </DocsPreview>

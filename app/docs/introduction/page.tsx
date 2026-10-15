@@ -1,22 +1,17 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import DocsQuickInstall from "@/components/docs/DocsQuickInstall";
 import { components, REGISTRY_HOMEPAGE } from "@/lib/components";
+import { pageMetadata } from "@/lib/seo";
 
 const description =
   "A free, copy-paste library of animated React components and page templates, built with Tailwind CSS and Motion.";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Introduction",
   description,
-  alternates: { canonical: "/docs/introduction" },
-  openGraph: {
-    title: "Introduction | Mox UI",
-    description,
-    url: "/docs/introduction",
-  },
-};
+  path: "/docs/introduction",
+});
 
 const CONTENTS = [
   {

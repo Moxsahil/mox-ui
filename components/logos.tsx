@@ -122,7 +122,7 @@ export function XLogo({ className }: LogoProps) {
   );
 }
 
-/** Lookup map — key logos by a stable slug for easy rendering. */
+/** Lookup map: key logos by a stable slug for easy rendering. */
 export const LOGOS = {
   npm: NpmLogo,
   pnpm: PnpmLogo,

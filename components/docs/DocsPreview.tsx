@@ -26,6 +26,7 @@ interface DocsPreviewProps {
   usage?: string;
   children: ReactNode;
   scrollable?: boolean;
+  template?: boolean;
 }
 
 export default function DocsPreview({
@@ -33,6 +34,7 @@ export default function DocsPreview({
   usage,
   children,
   scrollable = false,
+  template = false,
 }: DocsPreviewProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const [slot, setSlot] = useState<HTMLDivElement | null>(null);
@@ -85,7 +87,7 @@ export default function DocsPreview({
     }
   };
 
-  const constrained = scrollable || fullscreen;
+  const constrained = scrollable || template || fullscreen;
 
   return (
     <section
@@ -154,9 +156,11 @@ export default function DocsPreview({
             "relative isolate flex w-full min-w-0 bg-home-bg has-[[data-preview-panel]]:pb-16",
             fullscreen
               ? "h-svh"
-              : scrollable
-                ? "h-[min(70svh,650px)] min-h-[350px]"
-                : "min-h-[280px]",
+              : template
+                ? "h-[min(85svh,820px)] min-h-120"
+                : scrollable
+                  ? "h-[min(70svh,650px)] min-h-[350px]"
+                  : "min-h-[280px]",
           )}
         >
           <PreviewStageProvider value={{ slot, stage: stageRef }}>
@@ -167,6 +171,7 @@ export default function DocsPreview({
                 constrained
                   ? "h-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain"
                   : "flex items-center justify-center p-4 sm:p-6 lg:p-8",
+                template && !fullscreen && "p-3 sm:p-4",
               )}
             >
               {children}

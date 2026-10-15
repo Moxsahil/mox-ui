@@ -8,7 +8,6 @@ import HomeHero from "@/components/home/HomeHero";
 import HomeNav from "@/components/home/HomeNav";
 import InstallPaths from "@/components/home/InstallPaths";
 import StackSection from "@/components/home/StackSection";
-import TestimonialsSection from "@/components/testimonials/TestimonialsSection";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
@@ -36,7 +35,6 @@ export default async function Home() {
         <StackSection />
         <InstallPaths />
         <CraftStatement />
-        <TestimonialsSection />
         <HomeFaq />
         <HomeCta />
       </main>

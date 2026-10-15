@@ -1,64 +1,32 @@
 import type { MetadataRoute } from "next";
 import { components } from "@/lib/components";
+import { LEGAL_UPDATED } from "@/lib/legal";
 import { SITE_URL } from "@/lib/site";
 
-const lastModified = new Date("2026-07-30");
+// dates must reflect real content updates, google ignores lastmod once it proves unreliable
+const STATIC_PAGES: { path: string; lastModified: string }[] = [
+  { path: "/", lastModified: "2026-07-30" },
+  // the canonical gallery url: bare /components redirects to the first component
+  { path: "/components?view=overview", lastModified: "2026-07-30" },
+  { path: "/docs/introduction", lastModified: "2026-10-10" },
+  { path: "/docs/installation", lastModified: "2026-10-11" },
+  { path: "/templates", lastModified: "2026-07-30" },
+  { path: "/privacy", lastModified: LEGAL_UPDATED },
+  { path: "/terms", lastModified: LEGAL_UPDATED },
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: SITE_URL,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${SITE_URL}/components`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/docs/introduction`,
-      lastModified: new Date("2026-10-10"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/docs/installation`,
-      lastModified: new Date("2026-10-11"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/templates`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/testimonials`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/privacy`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/terms`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.3,
-    },
-    ...components.map((component) => ({
-      url: `${SITE_URL}${component.href}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
-  ];
+  const pages = new Map<string, MetadataRoute.Sitemap[number]>();
+
+  for (const { path, lastModified } of STATIC_PAGES) {
+    const url = new URL(path, SITE_URL).toString();
+    pages.set(url, { url, lastModified: new Date(lastModified) });
+  }
+
+  for (const component of components) {
+    const url = new URL(component.href, SITE_URL).toString();
+    if (!pages.has(url)) pages.set(url, { url });
+  }
+
+  return [...pages.values()];
 }

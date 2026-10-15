@@ -91,9 +91,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: [{ url: "/logos/mox-mark.svg", type: "image/svg+xml" }],
-  },
   openGraph: {
     title: SITE_TAGLINE,
     description: SITE_DESCRIPTION,
