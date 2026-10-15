@@ -10,6 +10,7 @@ import { MoxMark } from "@/components/MoxLogo";
 import { WRAP } from "./wrap";
 
 const LINKS = [
+  { label: "Docs", href: "/docs/introduction" },
   { label: "Components", href: "/components" },
   { label: "Templates", href: "/templates" },
 ];

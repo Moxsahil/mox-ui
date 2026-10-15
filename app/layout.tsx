@@ -30,11 +30,13 @@ const fraunces = Fraunces({
   axes: ["SOFT", "WONK", "opsz"],
 });
 
+// only a few component demos use cal sans, so it shouldn't cost every page a 104kb preload
 const calSans = localFont({
   variable: "--font-cal-sans",
   src: "../public/fonts/CalSans-Regular.ttf",
   weight: "400",
   style: "normal",
+  preload: false,
 });
 
 const openRunde = localFont({
