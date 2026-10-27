@@ -52,6 +52,7 @@ export type ComponentItem = {
   interaction?: string;
   usage?: string;
   props?: ComponentProp[];
+  template?: boolean;
   credits?: string[];
 };
 
@@ -302,6 +303,7 @@ export default function Page() {
     href: "/components/magazinetemplate",
     category: "display",
     registry: "magazine-template",
+    template: true,
     isNew: true,
     description:
       "An editorial magazine template with featured stories, a visual index, and an issue archive.",
@@ -336,10 +338,38 @@ export default function Page() {
 }`,
   },
   {
+    name: "Hero section",
+    href: "/components/herosection",
+    category: "display",
+    registry: "hero-section",
+    template: true,
+    isNew: true,
+    description:
+      "A landing page template with a mega menu, a tabbed product preview, and a rotating logo rail.",
+    source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/hero-section.tsx`,
+    image: "/componentdemos/herosection.jpg",
+    dependencies: [{ name: "lucide-react" }],
+    interaction:
+      "Hover or click Product and Solutions to open the mega menu; press Escape to close it. Switch the preview tabs by click or arrow keys. The logo rail cycles through company groups every 3.2 seconds and pauses while a group has keyboard focus; click a group to jump to it.",
+    props: [
+      {
+        name: "className",
+        type: "string",
+        description: "Extra classes merged onto the root element.",
+      },
+    ],
+    usage: `import HeroSection from "@/components/ui/hero-section";
+
+export default function Page() {
+  return <HeroSection />;
+}`,
+  },
+  {
     name: "SaaS template",
     href: "/components/saastemplate",
     category: "display",
     registry: "saas-template",
+    template: true,
     isNew: true,
     description:
       "A dark landing page template with a navbar, a hero, and a product screenshot.",
@@ -2130,9 +2160,7 @@ export type ComponentSection = {
   items: ComponentItem[];
 };
 
-export const templates = components.filter((item) =>
-  item.registry?.endsWith("-template"),
-);
+export const templates = components.filter((item) => item.template);
 
 // gallery sections: New repeats its members so they still appear under their own category
 export const gallerySections: ComponentSection[] = [

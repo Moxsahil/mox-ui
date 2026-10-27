@@ -59,6 +59,20 @@
       ]
     },
     {
+      "name": "hero-section",
+      "type": "registry:ui",
+      "title": "Hero Section",
+      "description": "A landing page template with a mega menu, a tabbed product preview, and a rotating logo rail.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "components/ui/hero-section.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "saas-template",
       "type": "registry:ui",
       "title": "SaaS Template",
