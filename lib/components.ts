@@ -347,7 +347,7 @@ export default function Page() {
     description:
       "A landing page template with a mega menu, a tabbed product preview, and a rotating logo rail.",
     source: `${REGISTRY_HOMEPAGE}/blob/main/components/ui/hero-section.tsx`,
-    image: "/componentdemos/herosection.jpg",
+    preview: "/componentdemos/herosection.webm",
     dependencies: [{ name: "lucide-react" }],
     interaction:
       "Hover or click Product and Solutions to open the mega menu; press Escape to close it. Switch the preview tabs by click or arrow keys. The logo rail cycles through company groups every 3.2 seconds and pauses while a group has keyboard focus; click a group to jump to it.",

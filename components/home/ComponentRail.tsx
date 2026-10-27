@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import PreviewFallback from "@/components/gallery/PreviewFallback";
 import PreviewVideo from "@/components/gallery/PreviewVideo";
@@ -46,6 +47,14 @@ function RailCard({ item, clone }: { item: ComponentItem; clone?: boolean }) {
       <div className="relative aspect-[16/11] overflow-hidden rounded-2xl border border-home-line bg-[#0A0908] transition-[transform,border-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/card:-translate-y-1 group-hover/card:border-home-line-strong">
         {item.preview ? (
           <PreviewVideo src={item.preview} autoPlay />
+        ) : item.image ? (
+          <Image
+            src={item.image}
+            alt=""
+            fill
+            sizes="(min-width: 1280px) 380px, 30vw"
+            className="object-cover object-top"
+          />
         ) : (
           <PreviewFallback />
         )}
