@@ -67,6 +67,7 @@ Every component page on the [website](https://moxui.dev/components) has a live p
 
 | Component                                                                | What it is                                                                                                            | Install name           |
 | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| [Hero section](https://moxui.dev/components/herosection)                 | A landing page template with a mega menu, a tabbed product preview, and a rotating logo rail.                         | `hero-section`         |
 | [SaaS template](https://moxui.dev/components/saastemplate)               | A dark landing page template with a navbar, a hero, and a product screenshot.                                         | `saas-template`        |
 | [Contribution skyline](https://moxui.dev/components/contributionskyline) | A contribution calendar with a heatmap and an interactive 3D skyline.                                                 | `contribution-skyline` |
 | [Folder component](https://moxui.dev/components/foldercomponent)         | An animated folder whose cards fan out on hover and lift open on click, with a 3D-tilted flap.                        | `folder-component`     |
